@@ -27,7 +27,7 @@ function Router() {
       <Route path="/productos" component={Catalog} />
       <Route path="/producto/:id" component={ProductDetail} />
       <Route path="/checkout" component={Checkout} />
-      <Route path="/cuad" component={Admin} />
+      <Route path="/admin" component={Admin} />
       <Route component={Home} />
     </Switch>
   );
