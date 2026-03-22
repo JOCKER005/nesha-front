@@ -15,7 +15,8 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1599643477874-c4ea90b50369?auto=format&fit=crop&w=1920&q=80"
-            alt="Hero"
+            alt=""
+            role="presentation"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background z-10" />
@@ -100,7 +101,7 @@ export default function Home() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1920&q=80"
-            alt="Promo" className="w-full h-full object-cover" />
+            alt="" role="presentation" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/60 z-10" />
         </div>
         <div className="relative z-20 max-w-3xl mx-auto px-4 text-center">
