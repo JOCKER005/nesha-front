@@ -111,10 +111,9 @@ function useMarketData(): MarketData {
         // Oro desde metals-api pública (Gold API free tier)
         let goldUSD: number | null = null;
         try {
-          const goldRes = await fetch("https://data-asg.goldprice.org/dbXRates/USD");
+          const goldRes = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT");
           const goldJson = await goldRes.json();
-          // precio por troy oz en USD
-          goldUSD = goldJson?.items?.[0]?.xauPrice ?? null;
+          goldUSD = goldJson?.price ? parseFloat(goldJson.price) : null;
         } catch {
           // Si falla el oro, continuamos con los dólares
         }
