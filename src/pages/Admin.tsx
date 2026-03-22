@@ -101,28 +101,17 @@ function useMarketData(): MarketData {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Dólar blue y MEP desde bluelytics
-        const dolarRes = await fetch("https://api.bluelytics.com.ar/v2/latest");
-        const dolarData = await dolarRes.json();
-        const blue = dolarData?.blue?.value_sell ?? null;
-        const oficial = dolarData?.oficial?.value_sell ?? null;
-        const mep = dolarData?.blue_euro?.value_sell ?? null; // aproximación
-
-        // Oro desde metals-api pública (Gold API free tier)
-        let goldUSD: number | null = null;
-        try {
-          const goldRes = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=XAUUSDT");
-          const goldJson = await goldRes.json();
-          goldUSD = goldJson?.price ? parseFloat(goldJson.price) : null;
-        } catch {
-          // Si falla el oro, continuamos con los dólares
-        }
-
-        const goldARS = goldUSD && blue ? goldUSD * blue : null;
-
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/market/prices`
+        );
+        const data = await res.json();
+        const goldUSD = data.goldUSD ?? null;
+        const blue    = data.dolarBlue ?? null;
+        const oficial = data.dolarOficial ?? null;
+        const goldARS = goldUSD && blue ? (goldUSD / 31.1035) * blue : null;
         setData({
           goldUSD, goldARS, dolarBlue: blue,
-          dolarMEP: mep, dolarOficial: oficial,
+          dolarMEP: null, dolarOficial: oficial,
           loading: false, error: null,
           lastUpdate: new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
         });
@@ -130,9 +119,8 @@ function useMarketData(): MarketData {
         setData(prev => ({ ...prev, loading: false, error: "No se pudo cargar el mercado" }));
       }
     };
-
     fetchData();
-    const interval = setInterval(fetchData, 15 * 60 * 1000); // cada 15 min
+    const interval = setInterval(fetchData, 15 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -480,6 +468,7 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
         <div className="flex items-start justify-between mb-8">
           <div>
+            <p className="text-xs uppercase tracking-widest text-primary mb-1">02 — Dashboard privado del dueño</p>
             <h1 className="text-4xl font-display mb-1">Panel del Negocio</h1>
             <p className="text-muted-foreground text-sm">Panel oculto solo para el maker de la joyería</p>
           </div>
