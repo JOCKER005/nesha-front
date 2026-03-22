@@ -85,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-24 bg-card">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -119,7 +119,7 @@ export default function Home() {
           <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1920&q=80"
             alt="" role="presentation" className="w-full h-full object-cover"
             onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
-          <div className="absolute inset-0 bg-white/30 z-10" />
+          <div className="absolute inset-0 bg-white/15 z-10" />
         </div>
         <div className="relative z-20 max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-display text-white mb-6">El Regalo Perfecto</h2>
