@@ -34,8 +34,8 @@ export default function Home() {
 
       {/* Hero — fondo oscuro sin imagen */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900 via-zinc-900/80 to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,162,39,0.08)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-zinc-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,162,39,0.05)_0%,transparent_60%)]" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
           <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
