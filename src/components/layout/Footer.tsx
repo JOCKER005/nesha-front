@@ -14,10 +14,19 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               Artesanía exquisita y diseños atemporales. Joyería fina para momentos inolvidables, creada con pasión y precisión.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={20} /></a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={20} /></a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter size={20} /></a>
+            <div className="flex gap-5">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors">
+                <Instagram size={26} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors">
+                <Facebook size={26} />
+              </a>
+              <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter size={26} />
+              </a>
             </div>
           </div>
 
@@ -35,9 +44,9 @@ export default function Footer() {
             <h3 className="font-sans font-semibold tracking-wider text-foreground mb-6 uppercase text-sm">Servicios</h3>
             <ul className="space-y-4">
               <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Diseño a Medida</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Cuidado de Joyas</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Guía de Tallas</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Envíos y Devoluciones</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cuidado de Joyas</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Guía de Tallas</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Envíos y Devoluciones</a></li>
             </ul>
           </div>
 
@@ -66,12 +75,7 @@ export default function Footer() {
           <div className="flex items-center gap-6">
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground">Términos de Servicio</a>
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground">Política de Privacidad</a>
-            {/* Botón admin discreto — solo visible si sabés que existe */}
-            <Link
-              href="/admin"
-              className="text-muted-foreground/20 hover:text-muted-foreground/60 transition-colors"
-              title="Acceso interno"
-            >
+            <Link href="/first" className="text-muted-foreground/20 hover:text-muted-foreground/60 transition-colors" title="Acceso interno">
               <Lock size={12} />
             </Link>
           </div>

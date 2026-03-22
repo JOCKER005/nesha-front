@@ -481,7 +481,6 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary mb-1">02 — Dashboard privado del dueño</p>
             <h1 className="text-4xl font-display mb-1">Panel del Negocio</h1>
             <p className="text-muted-foreground text-sm">Panel oculto solo para el maker de la joyería</p>
           </div>
