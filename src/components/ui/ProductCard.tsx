@@ -34,7 +34,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
     >
       <Link href={`/producto/${product.id}`} className="block">
         {/* Image */}
-        <div className="relative aspect-[4/5] bg-card border border-border overflow-hidden">
+        <div className="relative aspect-[4/5] bg-zinc-900 border border-zinc-800 overflow-hidden">
           {imgError || !product.image ? (
             /* FIX #13: placeholder cuando la imagen no carga */
             <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-muted-foreground bg-muted">
