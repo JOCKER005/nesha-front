@@ -68,7 +68,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { cat: "anillos", label: "Anillos", img: "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=800&q=80" },
+              { cat: "anillos", label: "Anillos", img: "https://imgs.search.brave.com/3nk3Wrq3MJl1laJdiC_1dsxWXvkKmtVQiu0WYqb8AD0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/YXJpc3RvY3Jhenku/Y29tL2Nkbi9zaG9w/L2ZpbGVzL0owNjMy/My0wMi1MQUItOUst/My5qcGc_dj0xNzY5/NjE0NzI5JndpZHRo/PTEyMDA" },
               { cat: "collares", label: "Collares", img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=800&q=80" },
             ].map(({ cat, label, img }) => (
               <Link key={cat} href={`/productos?category=${cat}`} className="group relative h-96 overflow-hidden bg-card block">
