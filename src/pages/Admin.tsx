@@ -142,7 +142,7 @@ function MarketCard({ title, value, subtitle, source, trend }: {
       ) : (
         <>
           <div className="flex items-center gap-2">
-            <p className="text-2xl font-display text-primary">{value}</p>
+            <p className="text-2xl font-sans font-semibold text-primary">{value}</p>
             {trend === "up" && <TrendingUp size={16} className="text-green-400" />}
             {trend === "down" && <TrendingDown size={16} className="text-red-400" />}
           </div>
