@@ -43,6 +43,7 @@ export interface Product {
   reviews:     number;
   description: string;
   image:       string;
+  images:      string[];   // imágenes adicionales del carrusel
   created_at?: string;
   updated_at?: string;
 }
