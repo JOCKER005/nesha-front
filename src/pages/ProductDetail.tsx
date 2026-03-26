@@ -83,9 +83,9 @@ export default function ProductDetail() {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
             <div className="flex gap-3">
 
-              {/* Miniaturas verticales (solo si hay más de 1 imagen) */}
+              {/* Miniaturas verticales (solo desktop) */}
               {allImages.length > 1 && (
-                <div className="flex flex-col items-center gap-2 w-16 flex-shrink-0">
+                <div className="hidden md:flex flex-col items-center gap-2 w-16 flex-shrink-0">
                   {/* Flecha arriba */}
                   <button
                     onClick={() => setThumbOffset(o => Math.max(0, o - 1))}

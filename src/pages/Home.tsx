@@ -32,22 +32,29 @@ export default function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* Hero — fondo oscuro sin imagen */}
+      {/* Hero — degradado radial centrado tipo vitrina */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-zinc-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,162,39,0.05)_0%,transparent_60%)]" />
+        {/* Degradado cálido desde el centro, oscurece hacia los bordes */}
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 80% 65% at 50% 50%, rgba(62,54,38,0.9) 0%, rgba(30,25,16,0.6) 45%, transparent 100%)"
+        }} />
+        {/* Toque dorado sutil */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_50%,rgba(201,162,39,0.07)_0%,transparent_70%)]" />
 
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
             className="text-primary text-xs uppercase tracking-[0.4em] mb-6 block font-medium">
             Colección Exclusiva
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-display text-foreground leading-tight mb-6">
+            className="text-5xl md:text-7xl font-display leading-tight mb-6"
+            style={{ color: "rgba(242,236,218,0.96)" }}>
             Elegancia en <br /><span className="gold-gradient-text italic">Cada Detalle</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
+            className="text-lg mb-10 max-w-xl mx-auto"
+            style={{ color: "rgba(205,193,168,0.88)" }}>
             Descubre nuestra colección de piezas finamente elaboradas. Arte, precisión y belleza atemporal.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}>

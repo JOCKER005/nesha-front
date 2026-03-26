@@ -134,19 +134,22 @@ function MarketCard({ title, value, subtitle, source, trend }: {
   return (
     <div className="bg-card border border-border p-5">
       <div className="flex items-start justify-between mb-3">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">{title}</p>
-        {source && <span className="text-[10px] text-muted-foreground/60 text-right max-w-[120px] leading-tight">{source}</span>}
+        <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">{title}</p>
+        {source && <span className="text-[10px] text-muted-foreground/50 text-right max-w-[120px] leading-tight">{source}</span>}
       </div>
       {value === null ? (
-        <p className="text-muted-foreground text-sm">Cargando...</p>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          <p className="text-muted-foreground text-sm">Cargando...</p>
+        </div>
       ) : (
         <>
           <div className="flex items-center gap-2">
-            <p className="text-2xl font-display text-primary">{value}</p>
+            <p className="text-3xl font-sans font-bold text-primary tabular-nums">{value}</p>
             {trend === "up" && <TrendingUp size={16} className="text-green-400" />}
             {trend === "down" && <TrendingDown size={16} className="text-red-400" />}
           </div>
-          {subtitle && <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>}
+          {subtitle && <p className="text-xs text-muted-foreground mt-1.5">{subtitle}</p>}
         </>
       )}
     </div>
@@ -256,7 +259,7 @@ function Dashboard({ orders, products }: { orders: any[]; products: any[] }) {
           ].map(stat => (
             <div key={stat.label} className="bg-card border border-border p-5 text-center">
               <stat.icon size={24} className={`${stat.color} mx-auto mb-2`} />
-              <p className={`text-3xl font-display ${stat.color} mb-1`}>{stat.value}</p>
+              <p className={`text-4xl font-sans font-bold tabular-nums ${stat.color} mb-1`}>{stat.value}</p>
               <p className="text-xs uppercase tracking-widest text-muted-foreground">{stat.label}</p>
             </div>
           ))}
@@ -514,9 +517,7 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary mb-1">02 — Dashboard privado del dueño</p>
             <h1 className="text-4xl font-display mb-1">Panel del Negocio</h1>
-            <p className="text-muted-foreground text-sm">Panel oculto solo para el maker de la joyería</p>
           </div>
           <button onClick={onLogout}
             className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground border border-border px-4 py-2 transition-colors">
