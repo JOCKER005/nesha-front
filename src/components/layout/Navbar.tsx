@@ -260,7 +260,7 @@ export default function Navbar() {
             <motion.div
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-[80%] max-w-sm bg-background border-r border-border z-50 flex flex-col p-6 md:hidden"
+              className="fixed inset-y-0 left-0 w-[80%] max-w-sm bg-zinc-950 border-r border-zinc-800 z-50 flex flex-col p-6 md:hidden shadow-2xl"
             >
               <button onClick={() => setIsMobileMenuOpen(false)}
                 className="self-end mb-6 text-foreground/60 hover:text-foreground">
