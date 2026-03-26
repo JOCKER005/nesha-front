@@ -134,22 +134,19 @@ function MarketCard({ title, value, subtitle, source, trend }: {
   return (
     <div className="bg-card border border-border p-5">
       <div className="flex items-start justify-between mb-3">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">{title}</p>
-        {source && <span className="text-[10px] text-muted-foreground/50 text-right max-w-[120px] leading-tight">{source}</span>}
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">{title}</p>
+        {source && <span className="text-[10px] text-muted-foreground/60 text-right max-w-[120px] leading-tight">{source}</span>}
       </div>
       {value === null ? (
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin flex-shrink-0" />
-          <p className="text-muted-foreground text-sm">Cargando...</p>
-        </div>
+        <p className="text-muted-foreground text-sm">Cargando...</p>
       ) : (
         <>
           <div className="flex items-center gap-2">
-            <p className="text-3xl font-sans font-bold text-primary tabular-nums">{value}</p>
+            <p className="text-2xl font-display text-primary">{value}</p>
             {trend === "up" && <TrendingUp size={16} className="text-green-400" />}
             {trend === "down" && <TrendingDown size={16} className="text-red-400" />}
           </div>
-          {subtitle && <p className="text-xs text-muted-foreground mt-1.5">{subtitle}</p>}
+          {subtitle && <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>}
         </>
       )}
     </div>
@@ -259,7 +256,7 @@ function Dashboard({ orders, products }: { orders: any[]; products: any[] }) {
           ].map(stat => (
             <div key={stat.label} className="bg-card border border-border p-5 text-center">
               <stat.icon size={24} className={`${stat.color} mx-auto mb-2`} />
-              <p className={`text-4xl font-sans font-bold tabular-nums ${stat.color} mb-1`}>{stat.value}</p>
+              <p className={`text-3xl font-display ${stat.color} mb-1`}>{stat.value}</p>
               <p className="text-xs uppercase tracking-widest text-muted-foreground">{stat.label}</p>
             </div>
           ))}
@@ -303,7 +300,7 @@ function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
   const [form, setForm] = useState<Partial<Product>>({
     name: "", category: "anillos", price: 0, stock: 0,
     featured: false, active: true, rating: 5, reviews: 0,
-    description: "", image: "", images: [], ...initial,
+    description: "", image: "", ...initial,
   });
   const set = (field: keyof Product, val: any) => setForm(f => ({ ...f, [field]: val }));
 
@@ -350,58 +347,12 @@ function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
                 className="w-full bg-background border border-border px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
                 step="0.1" min="1" max="5" />
             </div>
-            {/* Imagen principal */}
             <div className="sm:col-span-2">
-              <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Imagen Principal *</label>
+              <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">URL de Imagen</label>
               <input value={form.image} onChange={e => set("image", e.target.value)}
                 className="w-full bg-background border border-border px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
                 placeholder="https://..." />
             </div>
-
-            {/* Imágenes adicionales del carrusel */}
-            <div className="sm:col-span-2">
-              <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
-                Imágenes adicionales (carrusel — máx. 10)
-              </label>
-              <div className="space-y-2">
-                {((form.images ?? []) as string[]).map((url, idx) => (
-                  <div key={idx} className="flex gap-2 items-center">
-                    <input
-                      value={url}
-                      onChange={e => {
-                        const arr = [...((form.images ?? []) as string[])];
-                        arr[idx] = e.target.value;
-                        set("images", arr);
-                      }}
-                      className="flex-1 bg-background border border-border px-4 py-2 text-sm focus:outline-none focus:border-primary"
-                      placeholder={`Imagen ${idx + 2} — https://...`}
-                    />
-                    {url && (
-                      <div className="w-10 h-10 border border-border flex-shrink-0 overflow-hidden">
-                        <img src={url} alt="" className="w-full h-full object-cover"
-                          onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                      </div>
-                    )}
-                    <button type="button"
-                      onClick={() => {
-                        const arr = ((form.images ?? []) as string[]).filter((_, i) => i !== idx);
-                        set("images", arr);
-                      }}
-                      className="p-2 text-muted-foreground hover:text-red-400 transition-colors flex-shrink-0">
-                      <X size={14} />
-                    </button>
-                  </div>
-                ))}
-                {((form.images ?? []) as string[]).length < 10 && (
-                  <button type="button"
-                    onClick={() => set("images", [...((form.images ?? []) as string[]), ""])}
-                    className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors uppercase tracking-widest mt-1">
-                    <Plus size={13} /> Agregar imagen
-                  </button>
-                )}
-              </div>
-            </div>
-
             <div className="sm:col-span-2">
               <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Descripción</label>
               <textarea value={form.description} onChange={e => set("description", e.target.value)} rows={3}
@@ -517,7 +468,9 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
         <div className="flex items-start justify-between mb-8">
           <div>
+            <p className="text-xs uppercase tracking-widest text-primary mb-1">02 — Dashboard privado del dueño</p>
             <h1 className="text-4xl font-display mb-1">Panel del Negocio</h1>
+            <p className="text-muted-foreground text-sm">Panel oculto solo para el maker de la joyería</p>
           </div>
           <button onClick={onLogout}
             className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground border border-border px-4 py-2 transition-colors">
