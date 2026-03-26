@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
-@source safe "bg-zinc-950 border-zinc-800";
+
 
 @theme inline {
   --font-display: 'Cormorant Garamond', serif;
@@ -120,4 +120,10 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
+}
+
+/* Fix menú hamburguesa mobile — fondo sólido garantizado */
+.mobile-menu-panel {
+  background-color: #0a0a0a !important;
+  border-color: #27272a !important;
 }
