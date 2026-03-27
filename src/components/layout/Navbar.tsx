@@ -20,7 +20,6 @@ export default function Navbar() {
 
   const { data: allProducts } = useListProducts();
 
-  // Filtrar productos según la búsqueda
   const searchResults = searchQuery.trim().length >= 2
     ? (allProducts ?? []).filter(p =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -35,7 +34,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Cerrar búsqueda al hacer click fuera
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -47,14 +45,12 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Focus al input cuando se abre
   useEffect(() => {
     if (searchOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [searchOpen]);
 
-  // Cerrar búsqueda al cambiar de página
   useEffect(() => {
     setSearchOpen(false);
     setSearchQuery('');
@@ -172,7 +168,6 @@ export default function Navbar() {
                       </div>
                     </form>
 
-                    {/* Resultados */}
                     {searchQuery.trim().length >= 2 && (
                       <div>
                         {searchResults.length === 0 ? (
@@ -252,15 +247,18 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
+            {/* Overlay — solo fondo oscuro, SIN clase mobile-menu-panel */}
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mobile-menu-panel fixed inset-y-0 left-0 w-[80%] max-w-sm border-r z-50 flex flex-col p-6 md:hidden shadow-2xl"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
+            {/* Panel — fondo sólido forzado con style inline */}
             <motion.div
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="mobile-menu-panel fixed inset-y-0 left-0 w-[80%] max-w-sm border-r z-50 flex flex-col p-6 md:hidden shadow-2xl"
+              className="fixed top-0 left-0 h-screen w-[80%] max-w-sm z-[60] flex flex-col p-6 md:hidden shadow-2xl border-r"
+              style={{ backgroundColor: '#0a0a0a', borderColor: '#3f3f46' }}
             >
               <button onClick={() => setIsMobileMenuOpen(false)}
                 className="self-end mb-6 text-foreground/60 hover:text-foreground">
