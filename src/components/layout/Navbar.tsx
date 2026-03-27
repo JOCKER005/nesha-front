@@ -254,7 +254,7 @@ export default function Navbar() {
           <>
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden"
+              className="mobile-menu-panel fixed inset-y-0 left-0 w-[80%] max-w-sm border-r z-50 flex flex-col p-6 md:hidden shadow-2xl"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
