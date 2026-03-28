@@ -1,82 +1,140 @@
-import { Instagram, Facebook, Twitter, Lock } from 'lucide-react';
+import { Instagram, Facebook, Lock } from 'lucide-react';
 import { Link } from 'wouter';
+
+// Ícono TikTok SVG
+function TikTokIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.05a8.16 8.16 0 004.77 1.52V7.12a4.85 4.85 0 01-1-.43z"/>
+    </svg>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-background border-t border-white/5 pt-16 pb-8">
+    <footer style={{ background: '#0f0610', borderTop: '1px solid rgba(212,175,55,0.15)' }}
+      className="pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
 
-          <div className="md:col-span-1">
-            <h2 className="text-2xl font-display font-bold tracking-widest gold-gradient-text uppercase mb-4">
-              Luxe
-            </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-              Artesanía exquisita y diseños atemporales. Joyería fina para momentos inolvidables, creada con pasión y precisión.
+        {/* Logo central */}
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-display font-light tracking-[0.4em] gold-gradient-text uppercase mb-2">
+            NESHA
+          </h2>
+          <p className="text-xs font-sans tracking-[0.4em] text-[#A69CB0] uppercase mb-4">
+            Hair Extensions Premium
+          </p>
+          <div className="gold-line max-w-xs mx-auto opacity-50" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+
+          {/* Sobre NESHA */}
+          <div>
+            <p className="text-sm font-body text-[#A69CB0] leading-relaxed mb-6">
+              Extensiones de cabello 100% humano. Porque tu belleza natural merece lo mejor.
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-4">
               <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors">
-                <Instagram size={26} />
+                className="text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                <Instagram size={22} />
               </a>
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors">
-                <Facebook size={26} />
+                className="text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                <Facebook size={22} />
               </a>
-              <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter size={26} />
+              <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer"
+                className="text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                <TikTokIcon size={22} />
               </a>
             </div>
           </div>
 
+          {/* Nuestras Texturas */}
           <div>
-            <h3 className="font-sans font-semibold tracking-wider text-foreground mb-6 uppercase text-sm">Colecciones</h3>
-            <ul className="space-y-4">
-              <li><Link href="/productos?category=anillos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Anillos de Compromiso</Link></li>
-              <li><Link href="/productos?category=collares" className="text-sm text-muted-foreground hover:text-primary transition-colors">Collares y Gargantillas</Link></li>
-              <li><Link href="/productos?category=aretes" className="text-sm text-muted-foreground hover:text-primary transition-colors">Aretes de Diamante</Link></li>
-              <li><Link href="/productos?category=pulseras" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pulseras Finas</Link></li>
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+              Nuestras Texturas
+            </h3>
+            <ul className="space-y-3">
+              {["Liso Natural", "Ondulado Suave", "Rizado Definido", "Body Wave"].map(t => (
+                <li key={t}>
+                  <Link href="/productos" className="text-sm font-body text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                    {t}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Cuidado del Cabello */}
           <div>
-            <h3 className="font-sans font-semibold tracking-wider text-foreground mb-6 uppercase text-sm">Servicios</h3>
-            <ul className="space-y-4">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Diseño a Medida</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cuidado de Joyas</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Guía de Tallas</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Envíos y Devoluciones</a></li>
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+              Cuidado del Cabello
+            </h3>
+            <ul className="space-y-3">
+              {["Guía de Tonos", "Métodos de Aplicación", "Mantenimiento", "Envíos y Devoluciones"].map(t => (
+                <li key={t}>
+                  <a href="#" className="text-sm font-body text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                    {t}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Newsletter */}
           <div>
-            <h3 className="font-sans font-semibold tracking-wider text-foreground mb-6 uppercase text-sm">Newsletter</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Suscríbete para recibir noticias sobre nuevas colecciones y ofertas exclusivas.
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+              Club NESHA
+            </h3>
+            <p className="text-sm font-body text-[#A69CB0] mb-4">
+              Recibí novedades, tips y ofertas exclusivas.
             </p>
-            <form className="flex mt-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Tu correo electrónico"
-                className="bg-card border border-border px-4 py-2 text-sm w-full focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 text-foreground"
-              />
-              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium uppercase tracking-wider hover:bg-primary/90 transition-colors">
-                Unirse
+            <form className="flex" onSubmit={e => e.preventDefault()}>
+              <input type="email" placeholder="Tu correo"
+                className="flex-1 bg-transparent text-sm font-body text-white placeholder:text-[#A69CB0]/50 px-3 py-2.5 focus:outline-none"
+                style={{ border: '1px solid rgba(212,175,55,0.3)', borderRight: 'none' }} />
+              <button
+                className="btn-nesha px-4 py-2.5 text-xs font-sans font-semibold tracking-widest uppercase flex items-center">
+                <span>Unirse</span>
               </button>
             </form>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Luxe Joyería. Todos los derechos reservados.
+        {/* Iconos diferenciales */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 py-8"
+          style={{ borderTop: '1px solid rgba(212,175,55,0.1)', borderBottom: '1px solid rgba(212,175,55,0.1)' }}>
+          {[
+            { icon: "✦", label: "Cabello 100% Humano" },
+            { icon: "✦", label: "Envío Gratis" },
+            { icon: "✦", label: "Garantía de Calidad" },
+            { icon: "✦", label: "Asesoramiento Personalizado" },
+          ].map(item => (
+            <div key={item.label} className="flex flex-col items-center text-center gap-2">
+              <span className="text-[#D4AF37] text-xl font-display">{item.icon}</span>
+              <span className="text-xs font-sans tracking-widest uppercase text-[#A69CB0]">{item.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs font-body text-[#A69CB0]/60">
+            &copy; {new Date().getFullYear()} NESHA Hair Extensions. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground">Términos de Servicio</a>
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground">Política de Privacidad</a>
-            <Link href="/first" className="text-muted-foreground/20 hover:text-muted-foreground/60 transition-colors" title="Acceso interno">
-              <Lock size={12} />
+            <a href="#" className="text-xs font-body text-[#A69CB0]/60 hover:text-[#A69CB0] transition-colors">
+              Términos
+            </a>
+            <a href="#" className="text-xs font-body text-[#A69CB0]/60 hover:text-[#A69CB0] transition-colors">
+              Privacidad
+            </a>
+            {/* Botón admin discreto */}
+            <Link href="/first"
+              className="text-[#A69CB0]/15 hover:text-[#A69CB0]/40 transition-colors"
+              title="Acceso interno">
+              <Lock size={11} />
             </Link>
           </div>
         </div>
