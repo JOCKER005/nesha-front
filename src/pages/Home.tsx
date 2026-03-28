@@ -31,15 +31,15 @@ export default function Home() {
 
       {/* ── Hero ── */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Fondo degradado magenta profundo */}
+        {/* Fondo: costados púrpura, centro oscuro */}
         <div className="absolute inset-0"
           style={{
-            background: 'linear-gradient(135deg, #0f0610 0%, #1a0820 35%, #2a0a30 60%, #1a0618 100%)',
+            background: 'radial-gradient(ellipse at 50% 50%, #0a0308 0%, #0f0610 30%, #2a0a35 65%, #3a0a40 100%)',
           }} />
-        {/* Glow radial central */}
+        {/* Oscuridad extra en el centro */}
         <div className="absolute inset-0"
           style={{
-            background: 'radial-gradient(ellipse at 50% 40%, rgba(180,30,120,0.22) 0%, transparent 65%)',
+            background: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.55) 0%, transparent 55%)',
           }} />
         {/* Partículas decorativas */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
