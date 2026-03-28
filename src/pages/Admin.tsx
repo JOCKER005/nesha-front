@@ -134,19 +134,22 @@ function MarketCard({ title, value, subtitle, source, trend }: {
   return (
     <div className="bg-card border border-border p-5">
       <div className="flex items-start justify-between mb-3">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">{title}</p>
-        {source && <span className="text-[10px] text-muted-foreground/60 text-right max-w-[120px] leading-tight">{source}</span>}
+        <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">{title}</p>
+        {source && <span className="text-[10px] text-muted-foreground/50 text-right max-w-[120px] leading-tight">{source}</span>}
       </div>
       {value === null ? (
-        <p className="text-muted-foreground text-sm">Cargando...</p>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          <p className="text-muted-foreground text-sm">Cargando...</p>
+        </div>
       ) : (
         <>
           <div className="flex items-center gap-2">
-            <p className="text-2xl font-display text-primary">{value}</p>
+            <p className="text-2xl font-sans font-semibold text-primary tabular-nums tracking-tight">{value}</p>
             {trend === "up" && <TrendingUp size={16} className="text-green-400" />}
             {trend === "down" && <TrendingDown size={16} className="text-red-400" />}
           </div>
-          {subtitle && <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>}
+          {subtitle && <p className="text-xs text-muted-foreground mt-1.5">{subtitle}</p>}
         </>
       )}
     </div>
@@ -256,7 +259,7 @@ function Dashboard({ orders, products }: { orders: any[]; products: any[] }) {
           ].map(stat => (
             <div key={stat.label} className="bg-card border border-border p-5 text-center">
               <stat.icon size={24} className={`${stat.color} mx-auto mb-2`} />
-              <p className={`text-3xl font-display ${stat.color} mb-1`}>{stat.value}</p>
+              <p className={`text-4xl font-sans font-bold tabular-nums ${stat.color} mb-1`}>{stat.value}</p>
               <p className="text-xs uppercase tracking-widest text-muted-foreground">{stat.label}</p>
             </div>
           ))}
@@ -324,7 +327,7 @@ function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
               <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Categoría *</label>
               <select value={form.category} onChange={e => set("category", e.target.value)}
                 className="w-full bg-background border border-border px-4 py-2.5 text-sm focus:outline-none focus:border-primary appearance-none cursor-pointer">
-                {["clip", "keratina", "cortina", "coleta"].map(c => (
+                {["anillos", "collares", "aretes", "pulseras"].map(c => (
                   <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
                 ))}
               </select>
@@ -514,9 +517,7 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
 
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary mb-1">02 — Dashboard privado del dueño</p>
             <h1 className="text-4xl font-display mb-1">Panel del Negocio</h1>
-            <p className="text-muted-foreground text-sm">Panel oculto solo para el maker de la joyería</p>
           </div>
           <button onClick={onLogout}
             className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground border border-border px-4 py-2 transition-colors">
@@ -692,11 +693,89 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
                           </span>
                         </div>
                         <p className="text-xs text-muted-foreground mb-2">{formatDate(order.created_at)}</p>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-muted-foreground mb-3">
                           {order.items.map((item: any) => (
                             <span key={item.id} className="inline-block mr-3">{item.product_name} ×{item.quantity}</span>
                           ))}
                         </div>
+
+                        {/* Datos del comprador — desde MercadoPago */}
+                        {(order.payer_name || order.payer_email) && (
+                          <div className="mt-3 p-3 bg-background border border-border/50 rounded-sm">
+                            <p className="text-xs uppercase tracking-widest text-blue-400 font-medium mb-2">Comprador (MercadoPago)</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
+                              {order.payer_name && (
+                                <span className="flex items-center gap-1.5 text-xs text-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                  {order.payer_name}
+                                </span>
+                              )}
+                              {order.payer_email && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                  {order.payer_email}
+                                </span>
+                              )}
+                              {order.payer_dni && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                                  DNI: {order.payer_dni}
+                                </span>
+                              )}
+                              {order.payer_phone && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                  {order.payer_phone}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Datos de envío — ingresados por el cliente */}
+                        {(order.shipping_address || order.shipping_name) && (
+                          <div className="mt-2 p-3 bg-background border border-border/50 rounded-sm">
+                            <p className="text-xs uppercase tracking-widest text-primary font-medium mb-2">Datos de Envío</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
+                              {order.shipping_name && (
+                                <span className="flex items-center gap-1.5 text-xs text-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                  {order.shipping_name}
+                                </span>
+                              )}
+                              {order.shipping_dni && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                                  DNI: {order.shipping_dni}
+                                </span>
+                              )}
+                              {order.shipping_phone && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                  {order.shipping_phone}
+                                </span>
+                              )}
+                              {order.shipping_zip && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                  CP: {order.shipping_zip}
+                                </span>
+                              )}
+                              {order.shipping_address && (
+                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground sm:col-span-2">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                  {order.shipping_address}
+                                </span>
+                              )}
+                              {order.shipping_notes && (
+                                <span className="flex items-start gap-1.5 text-xs text-muted-foreground/70 sm:col-span-2 italic">
+                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="mt-0.5 flex-shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                  {order.shipping_notes}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-primary font-display text-xl">{formatPrice(order.total)}</span>
