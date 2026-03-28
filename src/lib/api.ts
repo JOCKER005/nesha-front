@@ -64,6 +64,18 @@ export interface Order {
   total:            number;
   created_at:       string | null;
   items:            OrderItem[];
+  // Datos del comprador (desde MP webhook)
+  payer_name:       string | null;
+  payer_email:      string | null;
+  payer_dni:        string | null;
+  payer_phone:      string | null;
+  // Datos de envío (desde el checkout)
+  shipping_name:    string | null;
+  shipping_dni:     string | null;
+  shipping_phone:   string | null;
+  shipping_address: string | null;
+  shipping_zip:     string | null;
+  shipping_notes:   string | null;
 }
 
 export interface PaymentPreferenceResponse {
@@ -89,6 +101,10 @@ export const api = {
     createPreference: (body: {
       items: { productId: number; name: string; price: number; quantity: number; image: string }[];
       backUrls: { success: string; failure: string; pending: string };
+      shippingData: {
+        name: string; dni: string; phone: string;
+        address: string; zip: string; notes: string;
+      };
     }) =>
       request<PaymentPreferenceResponse>("/api/payments/create-preference", {
         method: "POST",
