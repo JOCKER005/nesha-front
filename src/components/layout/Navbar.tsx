@@ -70,13 +70,14 @@ export default function Navbar() {
   const isHome = location === '/';
 
   return (
+    <>
     <header className={cn(
       'fixed top-0 w-full z-40 transition-all duration-500',
       isScrolled || !isHome
         ? 'py-3 border-b border-[#D4AF37]/15'
         : 'py-5 bg-transparent',
       isScrolled || !isHome ? 'bg-[#1a0a12]/92 backdrop-blur-xl' : ''
-    )}>
+    )} style={{ isolation: 'isolate' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
 
@@ -209,7 +210,9 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+    </header>
+
+      {/* Mobile menu — fuera del header para evitar herencia de backdrop-blur */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -220,7 +223,7 @@ export default function Navbar() {
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[80%] max-w-sm z-50 flex flex-col p-8 md:hidden"
-              style={{ background: '#1a0a12', borderRight: '1px solid rgba(212,175,55,0.2)' }}>
+              style={{ background: '#1a0a12', borderRight: '1px solid rgba(212,175,55,0.2)', isolation: 'isolate' }}>
               <button onClick={() => setIsMobileMenuOpen(false)}
                 className="self-end mb-8 text-[#A69CB0] hover:text-[#D4AF37]">
                 <X size={22} />
@@ -267,6 +270,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
