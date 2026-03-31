@@ -13,11 +13,12 @@ import {
   Download, Search, X, Check, ChevronDown, Loader2,
   BarChart3, Star, AlertTriangle, Lock, Eye, EyeOff,
   LogOut, TrendingUp, TrendingDown, DollarSign, Minus,
-  Activity, AlertCircle
+  Activity, AlertCircle, ClipboardList, Calendar, ArrowUpDown,
+  ArrowUp, ArrowDown, Clock, Hash
 } from "lucide-react";
 import { formatPrice as fp } from "@/lib/utils";
 
-type Tab = "dashboard" | "products" | "orders";
+type Tab = "dashboard" | "products" | "orders" | "pending";
 
 // ─── Login ────────────────────────────────────────────────────────────────────
 function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
@@ -441,6 +442,262 @@ function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
   );
 }
 
+
+// ─── Pending Panel ────────────────────────────────────────────────────────────
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  deadline: string;
+  priority: "alta" | "media" | "baja";
+  done: boolean;
+  createdAt: string;
+}
+
+const PRIORITY_COLORS = {
+  alta:  "text-red-400 bg-red-500/10 border-red-500/30",
+  media: "text-yellow-400 bg-yellow-500/10 border-yellow-500/30",
+  baja:  "text-green-400 bg-green-500/10 border-green-500/30",
+};
+
+function PendingPanel({ products }: { products: any[] }) {
+  const LOW_STOCK_THRESHOLD = 3;
+  const lowStockProducts = products.filter(p => p.active && p.stock !== null && p.stock <= LOW_STOCK_THRESHOLD);
+
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    try { return JSON.parse(localStorage.getItem("luxe_tasks") || "[]"); } catch { return []; }
+  });
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ title: "", description: "", deadline: "", priority: "media" as Task["priority"] });
+  const [formError, setFormError] = useState("");
+
+  const saveTasks = (t: Task[]) => {
+    setTasks(t);
+    localStorage.setItem("luxe_tasks", JSON.stringify(t));
+  };
+
+  const handleAdd = () => {
+    if (!form.title.trim()) { setFormError("El título es requerido"); return; }
+    if (!form.deadline) { setFormError("La fecha límite es requerida"); return; }
+    const t: Task = {
+      id: Date.now().toString(),
+      title: form.title.trim(),
+      description: form.description.trim(),
+      deadline: form.deadline,
+      priority: form.priority,
+      done: false,
+      createdAt: new Date().toISOString(),
+    };
+    saveTasks([t, ...tasks]);
+    setForm({ title: "", description: "", deadline: "", priority: "media" });
+    setShowForm(false);
+    setFormError("");
+  };
+
+  const toggleDone = (id: string) =>
+    saveTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+
+  const deleteTask = (id: string) =>
+    saveTasks(tasks.filter(t => t.id !== id));
+
+  const pendingTasks = tasks.filter(t => !t.done);
+  const doneTasks    = tasks.filter(t => t.done);
+
+  const isOverdue = (deadline: string) => new Date(deadline) < new Date() && deadline;
+
+  return (
+    <div className="space-y-8">
+
+      {/* ── Stock bajo ── */}
+      <div>
+        <div className="flex items-center gap-3 mb-5">
+          <AlertTriangle size={18} className="text-red-400" />
+          <h2 className="text-xl font-display">Productos con Stock Bajo</h2>
+          <span className="bg-red-500/10 text-red-400 border border-red-500/30 text-xs px-2 py-0.5 font-medium">
+            {lowStockProducts.length} producto{lowStockProducts.length !== 1 ? "s" : ""}
+          </span>
+        </div>
+
+        {lowStockProducts.length === 0 ? (
+          <div className="bg-green-500/5 border border-green-500/20 p-6 text-center">
+            <Check size={28} className="text-green-400 mx-auto mb-2" />
+            <p className="text-sm text-green-400 font-medium">¡Todo el stock está en orden!</p>
+            <p className="text-xs text-muted-foreground mt-1">Ningún producto tiene stock menor o igual a {LOW_STOCK_THRESHOLD} unidades.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {lowStockProducts.map(p => (
+              <div key={p.id} className={`bg-card border p-4 flex items-center gap-4 ${
+                p.stock === 0 ? "border-red-500/40" : "border-yellow-500/30"
+              }`}>
+                <div className="w-12 h-12 bg-muted border border-border flex-shrink-0 overflow-hidden flex items-center justify-center">
+                  {p.image
+                    ? <img src={p.image} alt="" className="w-full h-full object-cover" onError={e => {(e.target as HTMLImageElement).style.display="none"}}/>
+                    : <span className="text-xs text-muted-foreground">—</span>}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium line-clamp-1">{p.name}</p>
+                  <p className="text-xs text-muted-foreground capitalize">{p.category}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    {p.stock === 0 ? (
+                      <span className="text-xs font-bold text-red-400">SIN STOCK</span>
+                    ) : (
+                      <span className="text-xs font-bold text-yellow-400">{p.stock} unidad{p.stock !== 1 ? "es" : ""} restante{p.stock !== 1 ? "s" : ""}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Tareas y pedidos custom ── */}
+      <div>
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <ClipboardList size={18} className="text-primary" />
+            <h2 className="text-xl font-display">Tareas y Pedidos a Medida</h2>
+            {pendingTasks.length > 0 && (
+              <span className="bg-primary/10 text-primary border border-primary/30 text-xs px-2 py-0.5 font-medium">
+                {pendingTasks.length} pendiente{pendingTasks.length !== 1 ? "s" : ""}
+              </span>
+            )}
+          </div>
+          <button onClick={() => setShowForm(v => !v)}
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-xs uppercase tracking-widest hover:bg-primary/90 transition-colors">
+            <Plus size={14} />{showForm ? "Cancelar" : "Nueva Tarea"}
+          </button>
+        </div>
+
+        {/* Formulario nueva tarea */}
+        <AnimatePresence>
+          {showForm && (
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+              className="bg-card border border-border p-6 mb-6 space-y-4">
+              <h3 className="text-sm uppercase tracking-widest text-primary font-medium">Nueva Tarea / Pedido a Medida</h3>
+              {formError && <p className="text-red-400 text-xs">{formError}</p>}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-1.5">Título / Cliente *</label>
+                  <input value={form.title} onChange={e => {setForm(f=>({...f,title:e.target.value}));setFormError("")}}
+                    placeholder="Ej: Anillo a medida para María García"
+                    className="w-full bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary"/>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-1.5">Descripción / Requerimientos</label>
+                  <textarea value={form.description} onChange={e => setForm(f=>({...f,description:e.target.value}))}
+                    placeholder="Ej: Anillo de oro 18k talle 16, con iniciales grabadas M.G., piedra roja central..."
+                    rows={3}
+                    className="w-full bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary resize-none"/>
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-1.5">Plazo de Entrega *</label>
+                  <input type="date" value={form.deadline} onChange={e => {setForm(f=>({...f,deadline:e.target.value}));setFormError("")}}
+                    className="w-full bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary"/>
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-1.5">Prioridad</label>
+                  <select value={form.priority} onChange={e => setForm(f=>({...f,priority:e.target.value as Task["priority"]}))}
+                    className="w-full bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary appearance-none">
+                    <option value="alta">Alta</option>
+                    <option value="media">Media</option>
+                    <option value="baja">Baja</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button onClick={() => {setShowForm(false);setFormError("")}}
+                  className="px-4 py-2 text-xs uppercase tracking-widest text-muted-foreground border border-border hover:text-foreground transition-colors">
+                  Cancelar
+                </button>
+                <button onClick={handleAdd}
+                  className="flex items-center gap-2 px-5 py-2 text-xs uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                  <Check size={13} />Guardar Tarea
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Lista de tareas pendientes */}
+        {pendingTasks.length === 0 && doneTasks.length === 0 ? (
+          <div className="bg-card border border-border p-8 text-center">
+            <ClipboardList size={32} className="text-muted-foreground/30 mx-auto mb-3" />
+            <p className="text-muted-foreground text-sm">No hay tareas pendientes.</p>
+            <p className="text-xs text-muted-foreground/60 mt-1">Agregá pedidos a medida o recordatorios.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {pendingTasks.map(task => (
+              <div key={task.id} className={`bg-card border p-4 flex gap-4 items-start ${
+                isOverdue(task.deadline) ? "border-red-500/30" : "border-border"
+              }`}>
+                <button onClick={() => toggleDone(task.id)}
+                  className="w-5 h-5 border-2 border-border flex-shrink-0 mt-0.5 flex items-center justify-center hover:border-primary transition-colors rounded-sm">
+                </button>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <p className="text-sm font-medium">{task.title}</p>
+                    <span className={`text-[10px] px-2 py-0.5 border rounded-sm font-medium uppercase tracking-wider ${PRIORITY_COLORS[task.priority]}`}>
+                      {task.priority}
+                    </span>
+                    {isOverdue(task.deadline) && (
+                      <span className="text-[10px] px-2 py-0.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded-sm font-medium uppercase tracking-wider">
+                        Vencida
+                      </span>
+                    )}
+                  </div>
+                  {task.description && (
+                    <p className="text-xs text-muted-foreground mb-2 leading-relaxed">{task.description}</p>
+                  )}
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Calendar size={11} />
+                    <span>Entrega: <span className={isOverdue(task.deadline) ? "text-red-400 font-medium" : "text-foreground"}>
+                      {new Date(task.deadline + "T12:00:00").toLocaleDateString("es-AR", {day:"2-digit",month:"2-digit",year:"numeric"})}
+                    </span></span>
+                  </div>
+                </div>
+                <button onClick={() => deleteTask(task.id)}
+                  className="text-muted-foreground hover:text-red-400 transition-colors flex-shrink-0">
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
+
+            {/* Tareas completadas */}
+            {doneTasks.length > 0 && (
+              <details className="mt-4">
+                <summary className="text-xs uppercase tracking-widest text-muted-foreground cursor-pointer hover:text-foreground transition-colors flex items-center gap-2 py-2">
+                  <Check size={12} className="text-green-400" />
+                  {doneTasks.length} tarea{doneTasks.length !== 1 ? "s" : ""} completada{doneTasks.length !== 1 ? "s" : ""}
+                </summary>
+                <div className="space-y-2 mt-2">
+                  {doneTasks.map(task => (
+                    <div key={task.id} className="bg-card/50 border border-border/50 p-3 flex gap-3 items-start opacity-60">
+                      <button onClick={() => toggleDone(task.id)}
+                        className="w-5 h-5 border-2 border-green-500 flex-shrink-0 mt-0.5 flex items-center justify-center rounded-sm bg-green-500/10">
+                        <Check size={10} className="text-green-400" />
+                      </button>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm line-through text-muted-foreground">{task.title}</p>
+                      </div>
+                      <button onClick={() => deleteTask(task.id)}
+                        className="text-muted-foreground hover:text-red-400 transition-colors">
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Admin Panel ──────────────────────────────────────────────────────────────
 function AdminPanel({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -454,6 +711,7 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
   const [globalError, setGlobalError] = useState<string | null>(null);
   const [exportLoading, setExportLoading] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
+  const [orderSort, setOrderSort] = useState<"date_desc" | "date_asc" | "total_desc" | "total_asc" | "qty_desc" | "qty_asc">("date_desc");
 
   const { data: products = [], isLoading: loadingProducts } = useAdminProducts();
   const { data: orders = [], isLoading: loadingOrders } = useAdminOrders(orderStatusFilter || undefined, tab === "orders" || tab === "dashboard");
@@ -506,9 +764,10 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
   };
 
   const TABS = [
-    { id: "dashboard", label: "Dashboard", icon: BarChart3 },
-    { id: "products", label: "Productos", icon: Package },
-    { id: "orders", label: "Órdenes", icon: ShoppingCart },
+    { id: "dashboard", label: "Dashboard",  icon: BarChart3 },
+    { id: "products",  label: "Productos",  icon: Package },
+    { id: "orders",    label: "Órdenes",    icon: ShoppingCart },
+    { id: "pending",   label: "Pendientes", icon: ClipboardList },
   ] as const;
 
   return (
@@ -547,6 +806,11 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
         {/* Dashboard Tab */}
         {tab === "dashboard" && (
           <Dashboard orders={orders} products={products} />
+        )}
+
+        {/* Pending Tab */}
+        {tab === "pending" && (
+          <PendingPanel products={products} />
         )}
 
         {/* Products Tab */}
@@ -647,15 +911,37 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
         {tab === "orders" && (
           <div>
             <div className="flex flex-col sm:flex-row gap-4 mb-4 justify-between items-start flex-wrap">
-              <div className="relative">
-                <select value={orderStatusFilter} onChange={e => setOrderStatusFilter(e.target.value)}
-                  className="bg-card border border-border pl-4 pr-10 py-2 text-sm focus:outline-none focus:border-primary appearance-none cursor-pointer">
-                  <option value="">Todos los estados</option>
-                  {Object.entries(STATUS_LABELS).map(([key, { label }]) => (
-                    <option key={key} value={key}>{label}</option>
-                  ))}
-                </select>
-                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground" />
+              <div className="flex items-center gap-3 flex-wrap">
+                {/* Filtro por estado */}
+                <div className="relative">
+                  <select value={orderStatusFilter} onChange={e => setOrderStatusFilter(e.target.value)}
+                    className="bg-card border border-border pl-4 pr-10 py-2 text-sm focus:outline-none focus:border-primary appearance-none cursor-pointer">
+                    <option value="">Todos los estados</option>
+                    {Object.entries(STATUS_LABELS).map(([key, { label }]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground" />
+                </div>
+                {/* Ordenamiento */}
+                <div className="relative">
+                  <select value={orderSort} onChange={e => setOrderSort(e.target.value as any)}
+                    className="bg-card border border-border pl-4 pr-10 py-2 text-sm focus:outline-none focus:border-primary appearance-none cursor-pointer">
+                    <optgroup label="Por fecha">
+                      <option value="date_desc">Más recientes primero</option>
+                      <option value="date_asc">Más antiguas primero</option>
+                    </optgroup>
+                    <optgroup label="Por monto">
+                      <option value="total_desc">Mayor monto primero</option>
+                      <option value="total_asc">Menor monto primero</option>
+                    </optgroup>
+                    <optgroup label="Por cantidad">
+                      <option value="qty_desc">Mayor cantidad primero</option>
+                      <option value="qty_asc">Menor cantidad primero</option>
+                    </optgroup>
+                  </select>
+                  <ArrowUpDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground" />
+                </div>
               </div>
               <div className="flex items-center gap-2 flex-wrap">
                 <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
@@ -682,7 +968,19 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
               <div className="flex items-center justify-center py-20"><Loader2 size={28} className="animate-spin text-primary" /></div>
             ) : (
               <div className="space-y-3">
-                {orders.map(order => (
+                {[...orders]
+                  .sort((a, b) => {
+                    switch(orderSort) {
+                      case "date_desc": return new Date(b.created_at||0).getTime() - new Date(a.created_at||0).getTime();
+                      case "date_asc":  return new Date(a.created_at||0).getTime() - new Date(b.created_at||0).getTime();
+                      case "total_desc": return (b.total||0) - (a.total||0);
+                      case "total_asc":  return (a.total||0) - (b.total||0);
+                      case "qty_desc": return (b.items?.reduce((s:number,i:any)=>s+i.quantity,0)||0) - (a.items?.reduce((s:number,i:any)=>s+i.quantity,0)||0);
+                      case "qty_asc":  return (a.items?.reduce((s:number,i:any)=>s+i.quantity,0)||0) - (b.items?.reduce((s:number,i:any)=>s+i.quantity,0)||0);
+                      default: return 0;
+                    }
+                  })
+                  .map(order => (
                   <div key={order.id} className="bg-card border border-border p-5">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex-1 min-w-0">
@@ -699,42 +997,9 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
                           ))}
                         </div>
 
-                        {/* Datos del comprador — desde MercadoPago */}
-                        {(order.payer_name || order.payer_email) && (
-                          <div className="mt-3 p-3 bg-background border border-border/50 rounded-sm">
-                            <p className="text-xs uppercase tracking-widest text-blue-400 font-medium mb-2">Comprador (MercadoPago)</p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
-                              {order.payer_name && (
-                                <span className="flex items-center gap-1.5 text-xs text-foreground">
-                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                  {order.payer_name}
-                                </span>
-                              )}
-                              {order.payer_email && (
-                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                                  {order.payer_email}
-                                </span>
-                              )}
-                              {order.payer_dni && (
-                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                                  DNI: {order.payer_dni}
-                                </span>
-                              )}
-                              {order.payer_phone && (
-                                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                  <svg width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                                  {order.payer_phone}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
                         {/* Datos de envío — ingresados por el cliente */}
-                        {(order.shipping_address || order.shipping_name) && (
-                          <div className="mt-2 p-3 bg-background border border-border/50 rounded-sm">
+                        {order.shipping_address && (
+                          <div className="mt-3 p-3 bg-background border border-border/50 rounded-sm space-y-1.5">
                             <p className="text-xs uppercase tracking-widest text-primary font-medium mb-2">Datos de Envío</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
                               {order.shipping_name && (
