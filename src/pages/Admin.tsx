@@ -18,7 +18,74 @@ import {
 } from "lucide-react";
 import { formatPrice as fp } from "@/lib/utils";
 
-type Tab = "dashboard" | "products" | "orders" | "pending";
+type Tab = "dashboard" | "products" | "orders" | "pending" | "categorias";
+// ─── Categorías desde API ─────────────────────────────────────────────────────
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
+interface CategoryItem { id: number; name: string; }
+
+function useCategories() {
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const token = () => sessionStorage.getItem("luxe_admin_token") ?? "";
+
+  const fetchCats = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/categories`);
+      const data = await res.json();
+      setCategories(data);
+    } catch (e) {
+      console.error("Error cargando categorías", e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchCats(); }, []);
+
+  const add = async (name: string): Promise<boolean> => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/admin/categories`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-token": token() },
+        body: JSON.stringify({ name: name.trim().toLowerCase() }),
+      });
+      if (!res.ok) return false;
+      await fetchCats();
+      return true;
+    } catch { return false; }
+  };
+
+  const remove = async (id: number): Promise<boolean> => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/admin/categories/${id}`, {
+        method: "DELETE",
+        headers: { "x-admin-token": token() },
+      });
+      if (!res.ok) return false;
+      await fetchCats();
+      return true;
+    } catch { return false; }
+  };
+
+  const rename = async (id: number, newName: string): Promise<boolean> => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/admin/categories/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-admin-token": token() },
+        body: JSON.stringify({ name: newName.trim().toLowerCase() }),
+      });
+      if (!res.ok) return false;
+      await fetchCats();
+      return true;
+    } catch { return false; }
+  };
+
+  return { categories, loading, refresh: fetchCats, add, remove, rename };
+}
+
+
 
 // ─── Login ────────────────────────────────────────────────────────────────────
 function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
@@ -301,8 +368,9 @@ interface ProductFormProps {
 }
 
 function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
+  const { categories } = useCategories();
   const [form, setForm] = useState<Partial<Product>>({
-    name: "", category: "anillos", price: 0, stock: 0,
+    name: "", category: categories[0]?.name || "anillos", price: 0, stock: 0,
     featured: false, active: true, rating: 5, reviews: 0,
     description: "", image: "", images: [], ...initial,
   });
@@ -328,8 +396,8 @@ function ProductForm({ initial, onSave, onClose, loading }: ProductFormProps) {
               <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Categoría *</label>
               <select value={form.category} onChange={e => set("category", e.target.value)}
                 className="w-full bg-background border border-border px-4 py-2.5 text-sm focus:outline-none focus:border-primary appearance-none cursor-pointer">
-                {["anillos", "collares", "aretes", "pulseras"].map(c => (
-                  <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                {categories.map(c => (
+                  <option key={c.id} value={c.name}>{c.name.charAt(0).toUpperCase() + c.name.slice(1)}</option>
                 ))}
               </select>
             </div>
@@ -461,8 +529,9 @@ const PRIORITY_COLORS = {
 };
 
 function PendingPanel({ products }: { products: any[] }) {
-  const LOW_STOCK_THRESHOLD = 3;
-  const lowStockProducts = products.filter(p => p.active && p.stock !== null && p.stock <= LOW_STOCK_THRESHOLD);
+  const LOW_STOCK_THRESHOLD = 10;
+  // Incluye productos activos e inactivos — si tiene poco stock hay que saber igual
+  const lowStockProducts = products.filter(p => p.stock !== null && p.stock <= LOW_STOCK_THRESHOLD);
 
   const [tasks, setTasks] = useState<Task[]>(() => {
     try { return JSON.parse(localStorage.getItem("luxe_tasks") || "[]"); } catch { return []; }
@@ -698,6 +767,136 @@ function PendingPanel({ products }: { products: any[] }) {
   );
 }
 
+
+// ─── Categories Panel ─────────────────────────────────────────────────────────
+function CategoriesPanel() {
+  const { categories, loading, add, remove, rename } = useCategories();
+  const [newCat, setNewCat] = useState("");
+  const [editingCat, setEditingCat] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const handleAdd = async () => {
+    if (!newCat.trim()) { setError("Escribí el nombre de la categoría"); return; }
+    setSaving(true);
+    const ok = await add(newCat);
+    setSaving(false);
+    if (!ok) { setError("Esa categoría ya existe"); return; }
+    setNewCat(""); setError("");
+  };
+
+  const handleRename = async (id: number) => {
+    if (!editValue.trim()) { setError("El nombre no puede estar vacío"); return; }
+    setSaving(true);
+    const ok = await rename(id, editValue);
+    setSaving(false);
+    if (!ok) { setError("Ese nombre ya existe"); return; }
+    setEditingCat(null); setEditValue(""); setError("");
+  };
+
+  const handleRemove = async (id: number) => {
+    if (categories.length <= 1) { setError("Debe haber al menos una categoría"); return; }
+    setSaving(true);
+    const ok = await remove(id);
+    setSaving(false);
+    if (!ok) setError("No se pudo eliminar la categoría");
+  };
+
+  return (
+    <div className="space-y-6 max-w-xl">
+      <div>
+        <h2 className="text-xl font-display mb-2">Categorías de Productos</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          Estas categorías aparecen en el formulario de nuevo producto y en los filtros del catálogo.
+          Los cambios se guardan automáticamente.
+        </p>
+
+        {error && (
+          <div className="bg-destructive/10 border border-destructive/30 text-red-400 px-4 py-2 text-sm mb-4 flex items-center justify-between">
+            <span>{error}</span>
+            <button onClick={() => setError("")}><X size={13} /></button>
+          </div>
+        )}
+
+        {/* Lista de categorías */}
+        {loading ? (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 size={20} className="animate-spin text-primary" />
+          </div>
+        ) : (
+        <div className="space-y-2 mb-6">
+          {categories.map(cat => (
+            <div key={cat.id} className="bg-card border border-border px-4 py-3 flex items-center gap-3">
+              {editingCat === cat.id ? (
+                <>
+                  <input
+                    value={editValue}
+                    onChange={e => setEditValue(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") handleRename(cat.id); if (e.key === "Escape") { setEditingCat(null); setError(""); } }}
+                    autoFocus
+                    className="flex-1 bg-background border border-primary px-3 py-1.5 text-sm focus:outline-none"
+                  />
+                  <button onClick={() => handleRename(cat.id)} disabled={saving}
+                    className="p-1.5 text-green-400 hover:bg-green-500/10 rounded transition-colors disabled:opacity-50">
+                    {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                  </button>
+                  <button onClick={() => { setEditingCat(null); setError(""); }}
+                    className="p-1.5 text-muted-foreground hover:bg-card rounded transition-colors">
+                    <X size={14} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span className="flex-1 text-sm capitalize font-medium">{cat.name}</span>
+                  <button
+                    onClick={() => { setEditingCat(cat.id); setEditValue(cat.name); setError(""); }}
+                    className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded transition-colors">
+                    <Pencil size={14} />
+                  </button>
+                  <button
+                    onClick={() => handleRemove(cat.id)} disabled={saving}
+                    className="p-1.5 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded transition-colors disabled:opacity-50">
+                    <Trash2 size={14} />
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+          {categories.length === 0 && (
+            <p className="text-center text-muted-foreground text-sm py-6">No hay categorías. Agregá la primera.</p>
+          )}
+        </div>
+        )}
+
+        {/* Agregar nueva categoría */}
+        <div className="border border-border p-4 bg-card/50">
+          <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Nueva Categoría</p>
+          <div className="flex gap-2">
+            <input
+              value={newCat}
+              onChange={e => { setNewCat(e.target.value); setError(""); }}
+              onKeyDown={e => { if (e.key === "Enter") handleAdd(); }}
+              placeholder="Ej: pulseras, broches, tobilleras..."
+              className="flex-1 bg-background border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary"
+            />
+            <button onClick={handleAdd}
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 text-xs uppercase tracking-widest hover:bg-primary/90 transition-colors">
+              <Plus size={13} /> Agregar
+            </button>
+          </div>
+        </div>
+
+        {/* Nota */}
+        <p className="text-xs text-muted-foreground/60 mt-4">
+          ⚠️ Renombrar o eliminar una categoría no afecta los productos que ya la tienen asignada. 
+          Para reasignarlos editá cada producto manualmente.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Admin Panel ──────────────────────────────────────────────────────────────
 function AdminPanel({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -764,10 +963,11 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
   };
 
   const TABS = [
-    { id: "dashboard", label: "Dashboard",  icon: BarChart3 },
-    { id: "products",  label: "Productos",  icon: Package },
-    { id: "orders",    label: "Órdenes",    icon: ShoppingCart },
-    { id: "pending",   label: "Pendientes", icon: ClipboardList },
+    { id: "dashboard",   label: "Dashboard",    icon: BarChart3 },
+    { id: "products",    label: "Productos",    icon: Package },
+    { id: "orders",      label: "Órdenes",      icon: ShoppingCart },
+    { id: "pending",     label: "Pendientes",   icon: ClipboardList },
+    { id: "categorias",  label: "Categorías",   icon: Hash },
   ] as const;
 
   return (
@@ -811,6 +1011,11 @@ function AdminPanel({ onLogout }: { onLogout: () => void }) {
         {/* Pending Tab */}
         {tab === "pending" && (
           <PendingPanel products={products} />
+        )}
+
+        {/* Categorías Tab */}
+        {tab === "categorias" && (
+          <CategoriesPanel />
         )}
 
         {/* Products Tab */}
