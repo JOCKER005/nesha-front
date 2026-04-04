@@ -6,31 +6,48 @@ import ProductCard from "@/components/ui/ProductCard";
 import { Filter, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
-type Category = "clip" | "keratina" | "cortina" | "coleta";
 type SortOrder = "featured" | "price-asc" | "price-desc";
 
-const CATEGORIES = [
-  { id: "all",      label: "Ver Todo" },
-  { id: "clip",     label: "Clip" },
-  { id: "keratina", label: "Keratina" },
-  { id: "cortina",  label: "Cortina" },
-  { id: "coleta",   label: "Coleta" },
-];
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
+interface CategoryItem { id: number; name: string; }
+
+function useCategories() {
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/categories`)
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(e => console.error("Error cargando categorías", e));
+  }, []);
+
+  return categories;
+}
 
 export default function Catalog() {
   const search = useSearch();
   const params = new URLSearchParams(search);
-  const categoryFromUrl = params.get("category") as Category | null;
+  const categoryFromUrl = params.get("category");
 
-  const [activeCategory, setActiveCategory] = useState<Category | "all">(categoryFromUrl || "all");
+  const [activeCategory, setActiveCategory] = useState<string>(categoryFromUrl || "all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("featured");
 
   useEffect(() => {
     const p = new URLSearchParams(search);
-    setActiveCategory((p.get("category") as Category) || "all");
+    setActiveCategory(p.get("category") || "all");
   }, [search]);
 
   const { data: products, isLoading } = useListProducts();
+  const apiCategories = useCategories();
+
+  const CATEGORIES = [
+    { id: "all", label: "Ver Todo" },
+    ...apiCategories.map(cat => ({
+      id: cat.name,
+      label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+    })),
+  ];
 
   const filteredProducts = useMemo(() => {
     let result = products ?? [];
@@ -69,7 +86,7 @@ export default function Catalog() {
             <Filter size={14} className="text-[#A69CB0]" />
             {CATEGORIES.map(cat => (
               <button key={cat.id}
-                onClick={() => setActiveCategory(cat.id as Category | "all")}
+                onClick={() => setActiveCategory(cat.id)}
                 className="text-xs font-sans tracking-[0.15em] uppercase px-4 py-2 transition-all duration-200"
                 style={{
                   background: activeCategory === cat.id
