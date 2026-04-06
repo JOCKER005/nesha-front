@@ -33,36 +33,36 @@
 }
 
 :root {
-  /* NESHA — Magenta Oscuro + Dorado */
-  --background: 320 60% 8%;       /* Magenta muy oscuro, casi negro */
-  --foreground: 0 0% 98%;         /* Blanco Seda */
+  /* NESHA — Rosa Pálido + Dorado (femenino y lujoso) */
+  --background: 340 30% 97%;      /* Rosa pálido casi blanco #F9F2F5 */
+  --foreground: 330 25% 18%;      /* Marrón rosado oscuro */
 
-  --card: 315 55% 11%;            /* Púrpura-magenta ligeramente más claro */
-  --card-foreground: 0 0% 98%;
+  --card: 340 25% 99%;            /* Blanco rosado puro */
+  --card-foreground: 330 25% 18%;
 
-  --popover: 315 55% 11%;
-  --popover-foreground: 0 0% 98%;
+  --popover: 340 25% 99%;
+  --popover-foreground: 330 25% 18%;
 
   /* Dorado Brillante #D4AF37 */
   --primary: 46 66% 52%;
-  --primary-foreground: 320 60% 8%;
+  --primary-foreground: 340 30% 97%;
 
   /* Dorado Arena Mate #C5A059 */
   --secondary: 36 47% 56%;
-  --secondary-foreground: 320 60% 8%;
+  --secondary-foreground: 340 30% 97%;
 
-  /* Lavanda Grisáceo #A69CB0 */
-  --muted: 315 40% 16%;
-  --muted-foreground: 270 15% 67%;
+  /* Rosa pálido muted */
+  --muted: 340 20% 93%;
+  --muted-foreground: 330 15% 52%;
 
   --accent: 46 66% 52%;
-  --accent-foreground: 320 60% 8%;
+  --accent-foreground: 340 30% 97%;
 
-  --destructive: 0 62% 30%;
+  --destructive: 0 62% 45%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 315 30% 22%;
-  --input: 315 30% 22%;
+  --border: 340 20% 86%;
+  --input: 340 20% 86%;
   --ring: 46 66% 52%;
 
   --radius: 0.25rem;
@@ -74,10 +74,10 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
-    /* Textura de fondo: gradiente radial magenta sutil */
+    /* Textura de fondo: gradiente radial rosa sutil */
     background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(180, 30, 120, 0.18) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgba(120, 10, 80, 0.15) 0%, transparent 60%);
+      radial-gradient(ellipse at 20% 0%, rgba(220, 160, 185, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(212, 175, 55, 0.06) 0%, transparent 60%);
     background-attachment: fixed;
   }
 
@@ -120,11 +120,11 @@
     padding: 3px 8px;
   }
 
-  /* Panel de vidrio con tinte magenta */
+  /* Panel de vidrio con tinte rosado */
   .glass-panel {
-    background: rgba(60, 10, 45, 0.6);
+    background: rgba(255, 245, 250, 0.75);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.25);
   }
 
   /* Línea decorativa dorada */
@@ -136,7 +136,7 @@
   /* Botón primario NESHA */
   .btn-nesha {
     background: linear-gradient(135deg, #D4AF37, #C5A059);
-    color: #1a0a12;
+    color: #fff8f0;
     font-family: var(--font-sans);
     font-weight: 600;
     letter-spacing: 0.15em;

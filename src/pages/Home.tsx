@@ -34,11 +34,11 @@ export default function Home() {
 
         {/* Panel izquierdo oscuro con contenido */}
         <div className="relative z-10 flex flex-col justify-center w-full lg:w-[52%] px-8 sm:px-14 lg:px-20 pt-32 pb-20"
-          style={{ background: 'linear-gradient(160deg, #0a0210 0%, #130518 60%, #1a0620 100%)' }}>
+          style={{ background: 'linear-gradient(160deg, #FDF0F5 0%, #FAE8F0 60%, #F5DDE8 100%)' }}>
 
           {/* Número decorativo de fondo */}
           <span className="absolute left-6 top-1/2 -translate-y-1/2 font-display text-[18rem] font-light leading-none select-none pointer-events-none"
-            style={{ color: 'rgba(212,175,55,0.04)', letterSpacing: '-0.06em' }}>
+            style={{ color: 'rgba(212,175,55,0.07)', letterSpacing: '-0.06em' }}>
             N
           </span>
 
@@ -58,14 +58,14 @@ export default function Home() {
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display font-light italic leading-none mb-1"
-              style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)', color: '#A69CB0', letterSpacing: '0.02em' }}>
+              style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)', color: '#9E7A8A', letterSpacing: '0.02em' }}>
               La colección que define tu
             </motion.p>
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }}
-              className="font-display font-light text-white leading-[0.92]"
-              style={{ fontSize: 'clamp(4rem, 9vw, 7.5rem)', letterSpacing: '-0.01em' }}>
+              className="font-display font-light leading-[0.92]"
+              style={{ fontSize: 'clamp(4rem, 9vw, 7.5rem)', letterSpacing: '-0.01em', color: '#2E1820' }}>
               MEJOR
             </motion.h1>
             <motion.h1
@@ -80,7 +80,7 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.45 }}
             className="font-body leading-relaxed mb-10 max-w-sm"
-            style={{ color: '#7A6E82', fontSize: '0.95rem' }}>
+            style={{ color: '#8A6070', fontSize: '0.95rem' }}>
             Extensiones 100% cabello humano. Volumen, largo y movimiento que se funden con tu pelo.
           </motion.p>
 
@@ -103,7 +103,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.72 }}
             className="flex gap-8"
-            style={{ borderTop: '1px solid rgba(212,175,55,0.12)', paddingTop: '1.5rem' }}>
+            style={{ borderTop: '1px solid rgba(212,175,55,0.25)', paddingTop: '1.5rem' }}>
             {[
               { num: '+500', label: 'Clientas felices' },
               { num: '20+', label: 'Tonos disponibles' },
@@ -111,7 +111,7 @@ export default function Home() {
             ].map((s, i) => (
               <div key={i}>
                 <p className="font-display text-2xl font-light gold-gradient-text">{s.num}</p>
-                <p className="font-sans text-[10px] tracking-[0.18em] uppercase mt-0.5" style={{ color: '#5A5060' }}>{s.label}</p>
+                <p className="font-sans text-[10px] tracking-[0.18em] uppercase mt-0.5" style={{ color: '#B09098' }}>{s.label}</p>
               </div>
             ))}
           </motion.div>
@@ -128,13 +128,13 @@ export default function Home() {
             style={{ objectPosition: 'center top' }}
           />
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(90deg, #130518 0%, rgba(19,5,24,0.7) 25%, rgba(19,5,24,0.15) 55%, transparent 100%)',
+            background: 'linear-gradient(90deg, #FAE8F0 0%, rgba(250,232,240,0.7) 25%, rgba(250,232,240,0.1) 55%, transparent 100%)',
           }} />
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to top, #0a0210 0%, transparent 40%)',
+            background: 'linear-gradient(to top, #FDF0F5 0%, transparent 40%)',
           }} />
           <div className="absolute inset-0" style={{
-            background: 'rgba(60,5,50,0.35)',
+            background: 'rgba(220, 170, 195, 0.18)',
             mixBlendMode: 'multiply',
           }} />
 
@@ -146,7 +146,7 @@ export default function Home() {
             <p className="text-[10px] font-sans tracking-[0.3em] uppercase mb-2" style={{ color: '#D4AF37' }}>
               Nueva temporada
             </p>
-            <p className="font-display text-white text-xl font-light leading-tight">
+            <p className="font-display text-xl font-light leading-tight" style={{ color: '#2E1820' }}>
               Colección Primavera 2026
             </p>
             <div className="gold-line mt-3 opacity-50" />
@@ -162,22 +162,22 @@ export default function Home() {
       </section>
 
       {/* ── MARQUEE STRIP ── */}
-      <div className="overflow-hidden py-4" style={{ background: '#D4AF37' }}>
+      <div className="overflow-hidden py-4" style={{ background: 'linear-gradient(90deg, #D4AF37, #C5A059)' }}>
         <motion.div
           className="flex gap-0 whitespace-nowrap"
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 18, ease: 'linear', repeat: Infinity }}>
           {[...Array(10)].map((_, i) => (
             <span key={i} className="inline-flex items-center gap-6 px-8 font-sans font-semibold text-xs tracking-[0.3em] uppercase"
-              style={{ color: '#1a0a12' }}>
+              style={{ color: '#fff8f0' }}>
               Extensiones Premium
-              <span style={{ color: 'rgba(26,10,18,0.35)' }}>✦</span>
+              <span style={{ color: 'rgba(255,248,240,0.4)' }}>✦</span>
               Cabello Humano 100%
-              <span style={{ color: 'rgba(26,10,18,0.35)' }}>✦</span>
+              <span style={{ color: 'rgba(255,248,240,0.4)' }}>✦</span>
               Buenos Aires
-              <span style={{ color: 'rgba(26,10,18,0.35)' }}>✦</span>
+              <span style={{ color: 'rgba(255,248,240,0.4)' }}>✦</span>
               Envíos a Todo el País
-              <span style={{ color: 'rgba(26,10,18,0.35)' }}>✦</span>
+              <span style={{ color: 'rgba(255,248,240,0.4)' }}>✦</span>
             </span>
           ))}
         </motion.div>
