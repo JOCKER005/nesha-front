@@ -76,7 +76,7 @@ export default function Navbar() {
       isScrolled || !isHome
         ? 'py-3 border-b border-[#D4AF37]/15'
         : 'py-5 bg-transparent',
-      isScrolled || !isHome ? 'bg-[#1a0a12]/92 backdrop-blur-xl' : ''
+      isScrolled || !isHome ? 'bg-[#160B1C]/95 backdrop-blur-xl' : ''
     )} style={{ isolation: 'isolate' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export default function Navbar() {
                     exit={{ opacity: 0, y: -8, scale: 0.97 }}
                     transition={{ duration: 0.15 }}
                     className="absolute right-0 top-10 w-80 shadow-2xl z-50"
-                    style={{ background: '#1f0a18', border: '1px solid rgba(212,175,55,0.2)' }}
+                    style={{ background: '#160B1C', border: '1px solid rgba(212,175,55,0.2)' }}
                   >
                     <form onSubmit={handleSearchSubmit}>
                       <div className="flex items-center px-4 py-3 border-b border-[#D4AF37]/15">
@@ -223,7 +223,7 @@ export default function Navbar() {
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[80%] max-w-sm z-50 flex flex-col p-8 md:hidden"
-              style={{ background: '#1a0a12', borderRight: '1px solid rgba(212,175,55,0.2)', isolation: 'isolate' }}>
+              style={{ background: '#160B1C', borderRight: '1px solid rgba(212,175,55,0.2)', isolation: 'isolate' }}>
               <button onClick={() => setIsMobileMenuOpen(false)}
                 className="self-end mb-8 text-[#A69CB0] hover:text-[#D4AF37]">
                 <X size={22} />

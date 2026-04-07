@@ -12,7 +12,7 @@ function TikTokIcon({ size = 20 }: { size?: number }) {
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#0f0610', borderTop: '1px solid rgba(212,175,55,0.15)' }}
+    <footer style={{ background: '#0E0510', borderTop: '1px solid rgba(212,175,55,0.15)' }}
       className="pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
