@@ -70,8 +70,8 @@ export default function Home() {
             </motion.h1>
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3 }}
-              className="font-display font-light leading-[0.92] gold-gradient-text italic"
-              style={{ fontSize: 'clamp(4rem, 9vw, 7.5rem)', letterSpacing: '-0.01em' }}>
+              className="font-display font-light leading-[0.92] italic"
+              style={{ fontSize: 'clamp(4rem, 9vw, 7.5rem)', letterSpacing: '-0.01em', color: '#A0780A' }}>
               versión.
             </motion.h1>
           </div>
@@ -110,7 +110,7 @@ export default function Home() {
               { num: '100%', label: 'Cabello humano' },
             ].map((s, i) => (
               <div key={i}>
-                <p className="font-display text-2xl font-light gold-gradient-text">{s.num}</p>
+                <p className="font-display text-2xl font-light" style={{ color: '#A0780A' }}>{s.num}</p>
                 <p className="font-sans text-[10px] tracking-[0.18em] uppercase mt-0.5" style={{ color: '#B09098' }}>{s.label}</p>
               </div>
             ))}
@@ -184,7 +184,7 @@ export default function Home() {
       </div>
 
       {/* ── POR QUÉ NESHA ── */}
-      <section style={{ background: '#0d0412' }}>
+      <section style={{ background: '#FBF0F4' }}>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-24 pb-16 border-b"
             style={{ borderColor: 'rgba(212,175,55,0.1)' }}>
@@ -197,17 +197,17 @@ export default function Home() {
               </motion.span>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                className="font-display font-light text-white leading-[1.05]"
-                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
+                className="font-display font-light leading-[1.05]"
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#2E1820' }}>
                 Cabello que habla<br />
-                <span className="italic gold-gradient-text">por vos.</span>
+                <span className="italic" style={{ color: '#A0780A' }}>por vos.</span>
               </motion.h2>
             </div>
             <div className="flex items-end">
               <motion.p
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
                 className="font-body leading-relaxed"
-                style={{ color: '#6A6070', fontSize: '0.95rem', maxWidth: '380px' }}>
+                style={{ color: '#5C3D4A', fontSize: '0.95rem', maxWidth: '380px' }}>
                 Cada mechón está seleccionado para garantizar suavidad, brillo y durabilidad. No vendemos pelo — transformamos cómo te sentís.
               </motion.p>
             </div>
@@ -230,8 +230,8 @@ export default function Home() {
                 </span>
                 <div className="w-8 h-px mb-8 transition-all duration-500 group-hover:w-16"
                   style={{ background: '#D4AF37' }} />
-                <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-white mb-4">{item.title}</h3>
-                <p className="font-body text-sm leading-relaxed mb-6" style={{ color: '#6A6070' }}>{item.desc}</p>
+                <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#2E1820] mb-4">{item.title}</h3>
+                <p className="font-body text-sm leading-relaxed mb-6" style={{ color: '#5C3D4A' }}>{item.desc}</p>
                 <span className="text-[10px] font-sans tracking-[0.25em] uppercase" style={{ color: '#D4AF37' }}>{item.detail}</span>
               </motion.div>
             ))}
@@ -240,7 +240,7 @@ export default function Home() {
       </section>
 
       {/* ── TIPOS DE EXTENSIONES ── */}
-      <section style={{ background: '#0a0210' }}>
+      <section style={{ background: '#F8EBF1' }}>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24">
           <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
             <div>
@@ -252,10 +252,10 @@ export default function Home() {
               </motion.span>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                className="font-display font-light text-white"
+                className="font-display font-light text-[#2E1820]"
                 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)', lineHeight: 1.05 }}>
                 Encontrá tu<br />
-                <span className="italic gold-gradient-text">extensión perfecta.</span>
+                <span className="italic" style={{ color: '#A0780A' }}>extensión perfecta.</span>
               </motion.h2>
             </div>
           </div>
@@ -272,15 +272,15 @@ export default function Home() {
                   className="w-full h-full object-cover opacity-45 transition-all duration-700 group-hover:opacity-60 group-hover:scale-105"
                   style={{ objectPosition: 'center top' }} />
                 <div className="absolute inset-0" style={{
-                  background: 'linear-gradient(to top, rgba(10,2,16,0.97) 0%, rgba(10,2,16,0.5) 40%, transparent 75%)',
+                  background: 'linear-gradient(to top, rgba(248,235,241,0.92) 0%, rgba(248,235,241,0.3) 40%, transparent 75%)',
                 }} />
                 <div className="absolute top-6 left-6">
                   <span className="badge-gold px-3 py-1 text-[9px]">Más vendido</span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-10">
                   <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Aplicación en casa</p>
-                  <h3 className="font-display font-light text-white text-4xl md:text-5xl leading-tight mb-4">Extensiones<br />de Clip</h3>
-                  <p className="font-body text-sm mb-6" style={{ color: '#8A8090' }}>Ponelas y sacatelas en minutos. Ideal para uso diario.</p>
+                  <h3 className="font-display font-light text-[#2E1820] text-4xl md:text-5xl leading-tight mb-4">Extensiones<br />de Clip</h3>
+                  <p className="font-body text-sm mb-6" style={{ color: '#7A5A6A' }}>Ponelas y sacatelas en minutos. Ideal para uso diario.</p>
                   <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
@@ -298,12 +298,12 @@ export default function Home() {
                   alt="Keratina"
                   className="w-full h-full object-cover opacity-40 transition-all duration-700 group-hover:opacity-55 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{
-                  background: 'linear-gradient(to top, rgba(10,2,16,0.97) 0%, rgba(10,2,16,0.4) 50%, transparent 80%)',
+                  background: 'linear-gradient(to top, rgba(248,235,241,0.92) 0%, rgba(248,235,241,0.2) 50%, transparent 80%)',
                 }} />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Profesional</p>
-                  <h3 className="font-display font-light text-white text-3xl leading-tight mb-4">Keratina<br />&amp; Fusión</h3>
-                  <p className="font-body text-sm mb-6" style={{ color: '#8A8090' }}>Resultado natural y duradero.</p>
+                  <h3 className="font-display font-light text-[#2E1820] text-3xl leading-tight mb-4">Keratina<br />&amp; Fusión</h3>
+                  <p className="font-body text-sm mb-6" style={{ color: '#7A5A6A' }}>Resultado natural y duradero.</p>
                   <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
@@ -315,7 +315,7 @@ export default function Home() {
       </section>
 
       {/* ── PRODUCTOS DESTACADOS ── */}
-      <section style={{ background: '#0d0412' }}>
+      <section style={{ background: '#FBF0F4' }}>
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24">
           <div className="flex justify-between items-end mb-14 flex-wrap gap-6">
             <div>
@@ -327,15 +327,15 @@ export default function Home() {
               </motion.span>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                className="font-display font-light text-white"
+                className="font-display font-light text-[#2E1820]"
                 style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', lineHeight: 1.05 }}>
                 Más vendidas
               </motion.h2>
             </div>
             <Link href="/productos"
               className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-colors"
-              style={{ color: '#5A5060' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#D4AF37')}
+              style={{ color: '#5C3D4A' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#A0780A')}
               onMouseLeave={e => (e.currentTarget.style.color = '#5A5060')}>
               Ver todo <ArrowRight size={13} />
             </Link>
@@ -345,7 +345,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[...Array(4)].map((_, i) => (
                 <div key={i} className="aspect-[3/4] animate-pulse"
-                  style={{ background: '#1a0a12', border: '1px solid rgba(212,175,55,0.08)' }} />
+                  style={{ background: '#F0D8E4', border: '1px solid rgba(212,175,55,0.08)' }} />
               ))}
             </div>
           ) : (
@@ -359,7 +359,7 @@ export default function Home() {
       </section>
 
       {/* ── BANNER CTA ── */}
-      <section className="relative overflow-hidden py-36" style={{ background: '#08010f' }}>
+      <section className="relative overflow-hidden py-36" style={{ background: '#F5E4EE' }}>
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=60"
@@ -368,14 +368,14 @@ export default function Home() {
             style={{ objectPosition: 'center 30%' }}
           />
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(135deg, rgba(8,1,15,0.97) 0%, rgba(30,5,40,0.85) 50%, rgba(8,1,15,0.97) 100%)',
+            background: 'linear-gradient(135deg, rgba(245,228,238,0.95) 0%, rgba(220,185,205,0.5) 50%, rgba(245,228,238,0.95) 100%)',
           }} />
         </div>
         <div className="gold-line absolute top-0 left-0 right-0 opacity-30" />
         <div className="gold-line absolute bottom-0 left-0 right-0 opacity-30" />
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
           <span className="font-display font-light text-[18rem] leading-none tracking-tighter"
-            style={{ color: 'rgba(212,175,55,0.03)' }}>
+            style={{ color: 'rgba(160,120,10,0.06)' }}>
             NESHA
           </span>
         </div>
@@ -389,22 +389,22 @@ export default function Home() {
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="font-display font-light text-white leading-[1.0] mb-3"
+            className="font-display font-light text-[#2E1820] leading-[1.0] mb-3"
             style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}>
             Te asesoramos
           </motion.h2>
           <motion.h2
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-display font-light italic leading-[1.0] mb-10 gold-gradient-text"
-            style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}>
+            className="font-display font-light italic leading-[1.0] mb-10"
+            style={{ fontSize: 'clamp(3rem, 7vw, 6rem)', color: '#A0780A' }}>
             sin costo.
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
             transition={{ delay: 0.2 }}
             className="font-body mb-12 leading-relaxed mx-auto"
-            style={{ color: '#5A5060', fontSize: '0.95rem', maxWidth: '420px' }}>
+            style={{ color: '#5C3D4A', fontSize: '0.95rem', maxWidth: '420px' }}>
             Contanos tu largo, color y estilo de vida. Te recomendamos la extensión perfecta para vos.
           </motion.p>
           <motion.a
