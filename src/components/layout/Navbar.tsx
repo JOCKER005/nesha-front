@@ -95,7 +95,7 @@ export default function Navbar() {
               <Link key={link.name} href={link.href}
                 className={cn(
                   "text-xs font-sans font-medium tracking-[0.18em] uppercase transition-colors duration-200",
-                  location === link.href ? "text-[#D4AF37]" : "text-[#7a3060] hover:text-[#D4AF37]"
+                  location === link.href ? "text-[#8a6200]" : "text-[#7a3060] hover:text-[#8a6200]"
                 )}>
                 {link.name}
               </Link>
@@ -176,7 +176,7 @@ export default function Navbar() {
                                 <p className="text-sm font-sans font-medium line-clamp-1 text-[#3d1040]">{product.name}</p>
                                 <p className="text-xs text-[#7a3060] capitalize">{product.category}</p>
                               </div>
-                              <span className="text-[#D4AF37] text-sm font-sans font-semibold flex-shrink-0">
+                              <span className="text-[#8a6200] text-sm font-sans font-semibold flex-shrink-0">
                                 {formatPrice(product.price)}
                               </span>
                             </button>
@@ -250,7 +250,7 @@ export default function Navbar() {
                         onClick={() => { handleSelectProduct(product.id); setIsMobileMenuOpen(false); }}
                         className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#D4AF37]/10 text-left border-b border-[#D4AF37]/15 last:border-0">
                         <p className="text-sm font-sans flex-1 line-clamp-1 text-[#3d1040]">{product.name}</p>
-                        <span className="text-[#D4AF37] text-xs font-sans">{formatPrice(product.price)}</span>
+                        <span className="text-[#8a6200] text-xs font-sans">{formatPrice(product.price)}</span>
                       </button>
                     ))}
                   </div>

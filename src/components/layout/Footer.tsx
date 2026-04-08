@@ -52,7 +52,7 @@ export default function Footer() {
 
           {/* Nuestras Texturas */}
           <div>
-            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#8a6200] mb-5">
               Nuestras Texturas
             </h3>
             <ul className="space-y-3">
@@ -68,7 +68,7 @@ export default function Footer() {
 
           {/* Cuidado del Cabello */}
           <div>
-            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#8a6200] mb-5">
               Cuidado del Cabello
             </h3>
             <ul className="space-y-3">
@@ -84,7 +84,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-5">
+            <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase text-[#8a6200] mb-5">
               Club NESHA
             </h3>
             <p className="text-sm font-body text-[#7a3060] mb-4">
@@ -112,7 +112,7 @@ export default function Footer() {
             { icon: "✦", label: "Asesoramiento Personalizado" },
           ].map(item => (
             <div key={item.label} className="flex flex-col items-center text-center gap-2">
-              <span className="text-[#D4AF37] text-xl font-display">{item.icon}</span>
+              <span className="text-[#8a6200] text-xl font-display">{item.icon}</span>
               <span className="text-xs font-sans tracking-widest uppercase text-[#7a3060]">{item.label}</span>
             </div>
           ))}

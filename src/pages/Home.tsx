@@ -48,7 +48,7 @@ export default function Home() {
             className="flex items-center gap-3 mb-10">
             <div className="w-10 h-px" style={{ background: 'linear-gradient(90deg, #D4AF37, transparent)' }} />
             <span className="text-[10px] font-sans font-medium tracking-[0.55em] uppercase"
-              style={{ color: '#D4AF37' }}>
+              style={{ color: '#8a6200' }}>
               Buenos Aires · Argentina
             </span>
           </motion.div>
@@ -143,7 +143,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1 }}
             className="absolute bottom-12 right-10 glass-panel px-6 py-5"
             style={{ maxWidth: '220px' }}>
-            <p className="text-[10px] font-sans tracking-[0.3em] uppercase mb-2" style={{ color: '#D4AF37' }}>
+            <p className="text-[10px] font-sans tracking-[0.3em] uppercase mb-2" style={{ color: '#8a6200' }}>
               Nueva temporada
             </p>
             <p className="font-display text-xl font-light leading-tight" style={{ color: '#3d1040' }}>
@@ -192,7 +192,7 @@ export default function Home() {
               <motion.span
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
                 className="block text-[10px] font-sans tracking-[0.5em] uppercase mb-5"
-                style={{ color: '#D4AF37' }}>
+                style={{ color: '#8a6200' }}>
                 Por qué elegirnos
               </motion.span>
               <motion.h2
@@ -232,7 +232,7 @@ export default function Home() {
                   style={{ background: '#D4AF37' }} />
                 <h3 className="font-sans font-semibold text-xs tracking-[0.2em] uppercase mb-4" style={{ color: '#3d1040' }}>{item.title}</h3>
                 <p className="font-body text-sm leading-relaxed mb-6" style={{ color: '#7a3060' }}>{item.desc}</p>
-                <span className="text-[10px] font-sans tracking-[0.25em] uppercase" style={{ color: '#D4AF37' }}>{item.detail}</span>
+                <span className="text-[10px] font-sans tracking-[0.25em] uppercase" style={{ color: '#8a6200' }}>{item.detail}</span>
               </motion.div>
             ))}
           </div>
@@ -247,7 +247,7 @@ export default function Home() {
               <motion.span
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
                 className="block text-[10px] font-sans tracking-[0.5em] uppercase mb-4"
-                style={{ color: '#D4AF37' }}>
+                style={{ color: '#8a6200' }}>
                 Nuestras Líneas
               </motion.span>
               <motion.h2
@@ -278,10 +278,10 @@ export default function Home() {
                   <span className="badge-gold px-3 py-1 text-[9px]">Más vendido</span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-10">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Aplicación en casa</p>
+                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#8a6200' }}>Aplicación en casa</p>
                   <h3 className="font-display font-light text-white text-4xl md:text-5xl leading-tight mb-4">Extensiones<br />de Clip</h3>
                   <p className="font-body text-sm mb-6" style={{ color: '#e8d5f0' }}>Ponelas y sacatelas en minutos. Ideal para uso diario.</p>
-                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
+                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#8a6200' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
                 </div>
@@ -301,10 +301,10 @@ export default function Home() {
                   background: 'linear-gradient(to top, rgba(61,16,64,0.95) 0%, rgba(61,16,64,0.35) 50%, transparent 80%)',
                 }} />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Profesional</p>
+                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#8a6200' }}>Profesional</p>
                   <h3 className="font-display font-light text-white text-3xl leading-tight mb-4">Keratina<br />&amp; Fusión</h3>
                   <p className="font-body text-sm mb-6" style={{ color: '#e8d5f0' }}>Resultado natural y duradero.</p>
-                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
+                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#8a6200' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
                 </div>
@@ -322,7 +322,7 @@ export default function Home() {
               <motion.span
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
                 className="block text-[10px] font-sans tracking-[0.5em] uppercase mb-4"
-                style={{ color: '#D4AF37' }}>
+                style={{ color: '#8a6200' }}>
                 Las favoritas
               </motion.span>
               <motion.h2
@@ -384,7 +384,7 @@ export default function Home() {
           <motion.span
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
             className="block text-[10px] font-sans tracking-[0.55em] uppercase mb-6"
-            style={{ color: '#D4AF37' }}>
+            style={{ color: '#8a6200' }}>
             ¿No sabés cuál elegir?
           </motion.span>
           <motion.h2
