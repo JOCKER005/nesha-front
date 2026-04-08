@@ -269,19 +269,19 @@ export default function Home() {
               <Link href="/productos?category=clip" className="absolute inset-0">
                 <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=80"
                   alt="Clip"
-                  className="w-full h-full object-cover opacity-55 transition-all duration-700 group-hover:opacity-70 group-hover:scale-105"
+                  className="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
                   style={{ objectPosition: 'center top' }} />
                 <div className="absolute inset-0" style={{
-                  background: 'linear-gradient(to top, rgba(61,16,64,0.92) 0%, rgba(61,16,64,0.4) 40%, transparent 75%)',
+                  background: 'linear-gradient(to top, rgba(61,16,64,0.88) 0%, rgba(61,16,64,0.25) 45%, transparent 72%)',
                 }} />
                 <div className="absolute top-6 left-6">
                   <span className="badge-gold px-3 py-1 text-[9px]">Más vendido</span>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-10">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#8a6200' }}>Aplicación en casa</p>
+                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Aplicación en casa</p>
                   <h3 className="font-display font-light text-white text-4xl md:text-5xl leading-tight mb-4">Extensiones<br />de Clip</h3>
                   <p className="font-body text-sm mb-6" style={{ color: '#e8d5f0' }}>Ponelas y sacatelas en minutos. Ideal para uso diario.</p>
-                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#8a6200' }}>
+                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
                 </div>
@@ -296,15 +296,15 @@ export default function Home() {
               <Link href="/productos?category=keratina" className="absolute inset-0">
                 <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=600&q=80"
                   alt="Keratina"
-                  className="w-full h-full object-cover opacity-55 transition-all duration-700 group-hover:opacity-70 group-hover:scale-105" />
+                  className="w-full h-full object-cover opacity-90 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{
-                  background: 'linear-gradient(to top, rgba(61,16,64,0.95) 0%, rgba(61,16,64,0.35) 50%, transparent 80%)',
+                  background: 'linear-gradient(to top, rgba(61,16,64,0.90) 0%, rgba(61,16,64,0.22) 50%, transparent 78%)',
                 }} />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#8a6200' }}>Profesional</p>
+                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-3" style={{ color: '#D4AF37' }}>Profesional</p>
                   <h3 className="font-display font-light text-white text-3xl leading-tight mb-4">Keratina<br />&amp; Fusión</h3>
                   <p className="font-body text-sm mb-6" style={{ color: '#e8d5f0' }}>Resultado natural y duradero.</p>
-                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#8a6200' }}>
+                  <span className="inline-flex items-center gap-2 text-xs font-sans tracking-[0.2em] uppercase transition-all group-hover:gap-4" style={{ color: '#D4AF37' }}>
                     Ver colección <ArrowRight size={13} />
                   </span>
                 </div>
