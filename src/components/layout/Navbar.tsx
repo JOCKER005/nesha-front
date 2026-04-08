@@ -76,7 +76,7 @@ export default function Navbar() {
       isScrolled || !isHome
         ? 'py-3 border-b border-[#D4AF37]/15'
         : 'py-5 bg-transparent',
-      isScrolled || !isHome ? 'bg-[#160B1C]/95 backdrop-blur-xl' : ''
+      isScrolled || !isHome ? 'bg-[#fdf0f8]/95 backdrop-blur-xl' : ''
     )} style={{ isolation: 'isolate' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -84,7 +84,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <div className="flex-1 flex md:hidden">
             <button onClick={() => setIsMobileMenuOpen(true)}
-              className="text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+              className="text-[#7a3060] hover:text-[#D4AF37] transition-colors">
               <Menu size={22} />
             </button>
           </div>
@@ -95,7 +95,7 @@ export default function Navbar() {
               <Link key={link.name} href={link.href}
                 className={cn(
                   "text-xs font-sans font-medium tracking-[0.18em] uppercase transition-colors duration-200",
-                  location === link.href ? "text-[#D4AF37]" : "text-[#A69CB0] hover:text-[#D4AF37]"
+                  location === link.href ? "text-[#D4AF37]" : "text-[#7a3060] hover:text-[#D4AF37]"
                 )}>
                 {link.name}
               </Link>
@@ -109,7 +109,7 @@ export default function Navbar() {
                 <h1 className="text-4xl font-display font-light tracking-[0.35em] gold-gradient-text uppercase">
                   NESHA
                 </h1>
-                <span className="text-[9px] font-sans tracking-[0.5em] text-[#A69CB0] uppercase block text-center -mt-1 group-hover:text-[#D4AF37] transition-colors">
+                <span className="text-[9px] font-sans tracking-[0.5em] text-[#7a3060] uppercase block text-center -mt-1 group-hover:text-[#D4AF37] transition-colors">
                   Hair Extensions
                 </span>
                 {/* Línea dorada debajo del logo */}
@@ -124,7 +124,7 @@ export default function Navbar() {
             {/* Search */}
             <div ref={searchRef} className="relative hidden sm:block">
               <button onClick={() => setSearchOpen(v => !v)}
-                className="text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                className="text-[#7a3060] hover:text-[#D4AF37] transition-colors">
                 <Search size={18} strokeWidth={1.5} />
               </button>
 
@@ -136,19 +136,19 @@ export default function Navbar() {
                     exit={{ opacity: 0, y: -8, scale: 0.97 }}
                     transition={{ duration: 0.15 }}
                     className="absolute right-0 top-10 w-80 shadow-2xl z-50"
-                    style={{ background: '#160B1C', border: '1px solid rgba(212,175,55,0.2)' }}
+                    style={{ background: '#fdf0f8', border: '1px solid rgba(212,175,55,0.3)' }}
                   >
                     <form onSubmit={handleSearchSubmit}>
                       <div className="flex items-center px-4 py-3 border-b border-[#D4AF37]/15">
-                        <Search size={14} className="text-[#A69CB0] flex-shrink-0" />
+                        <Search size={14} className="text-[#7a3060] flex-shrink-0" />
                         <input ref={inputRef} value={searchQuery}
                           onChange={e => setSearchQuery(e.target.value)}
                           placeholder="Buscar extensiones..."
-                          className="w-full bg-transparent px-3 text-sm focus:outline-none text-white placeholder:text-[#A69CB0]/60 font-body"
+                          className="w-full bg-transparent px-3 text-sm focus:outline-none text-[#3d1040] placeholder:text-[#7a3060]/60 font-body"
                         />
                         {searchQuery && (
                           <button type="button" onClick={() => setSearchQuery('')}
-                            className="text-[#A69CB0] hover:text-[#D4AF37]">
+                            className="text-[#7a3060] hover:text-[#D4AF37]">
                             <X size={14} />
                           </button>
                         )}
@@ -158,14 +158,14 @@ export default function Navbar() {
                     {searchQuery.trim().length >= 2 && (
                       <div>
                         {searchResults.length === 0 ? (
-                          <p className="text-center text-[#A69CB0] text-sm py-6 font-body">
+                          <p className="text-center text-[#7a3060] text-sm py-6 font-body">
                             Sin resultados para "{searchQuery}"
                           </p>
                         ) : (
                           searchResults.map(product => (
                             <button key={product.id} onClick={() => handleSelectProduct(product.id)}
-                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#D4AF37]/8 transition-colors text-left border-b border-[#D4AF37]/10 last:border-0">
-                              <div className="w-10 h-10 flex-shrink-0 overflow-hidden border border-[#D4AF37]/20">
+                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#D4AF37]/10 transition-colors text-left border-b border-[#D4AF37]/15 last:border-0">
+                              <div className="w-10 h-10 flex-shrink-0 overflow-hidden border border-[#D4AF37]/25">
                                 {product.image && (
                                   <img src={product.image} alt={product.name}
                                     className="w-full h-full object-cover"
@@ -173,8 +173,8 @@ export default function Navbar() {
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-sans font-medium line-clamp-1 text-white">{product.name}</p>
-                                <p className="text-xs text-[#A69CB0] capitalize">{product.category}</p>
+                                <p className="text-sm font-sans font-medium line-clamp-1 text-[#3d1040]">{product.name}</p>
+                                <p className="text-xs text-[#7a3060] capitalize">{product.category}</p>
                               </div>
                               <span className="text-[#D4AF37] text-sm font-sans font-semibold flex-shrink-0">
                                 {formatPrice(product.price)}
@@ -186,7 +186,7 @@ export default function Navbar() {
                     )}
 
                     {searchQuery.trim().length === 0 && (
-                      <p className="text-center text-[#A69CB0]/60 text-xs py-4 font-body">
+                      <p className="text-center text-[#7a3060]/60 text-xs py-4 font-body">
                         Buscá por tipo, largo o textura
                       </p>
                     )}
@@ -197,7 +197,7 @@ export default function Navbar() {
 
             {/* Cart */}
             <button onClick={toggleCart}
-              className="relative text-[#A69CB0] hover:text-[#D4AF37] transition-colors group">
+              className="relative text-[#7a3060] hover:text-[#D4AF37] transition-colors group">
               <ShoppingBag size={20} strokeWidth={1.5} />
               {itemsCount > 0 && (
                 <span className="absolute -top-2 -right-2 text-[#1a0a12] text-[9px] font-sans font-bold w-4 h-4 rounded-full flex items-center justify-center"
@@ -223,9 +223,9 @@ export default function Navbar() {
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[80%] max-w-sm z-50 flex flex-col p-8 md:hidden"
-              style={{ background: '#160B1C', borderRight: '1px solid rgba(212,175,55,0.2)', isolation: 'isolate' }}>
+              style={{ background: '#fdf0f8', borderRight: '1px solid rgba(212,175,55,0.3)', isolation: 'isolate' }}>
               <button onClick={() => setIsMobileMenuOpen(false)}
-                className="self-end mb-8 text-[#A69CB0] hover:text-[#D4AF37]">
+                className="self-end mb-8 text-[#7a3060] hover:text-[#D4AF37]">
                 <X size={22} />
               </button>
 
@@ -236,20 +236,20 @@ export default function Navbar() {
 
               {/* Búsqueda mobile */}
               <form onSubmit={handleSearchSubmit} className="mb-8">
-                <div className="flex items-center border border-[#D4AF37]/30 px-3 py-2"
-                  style={{ background: 'rgba(212,175,55,0.05)' }}>
-                  <Search size={14} className="text-[#A69CB0]" />
+                <div className="flex items-center border border-[#D4AF37]/35 px-3 py-2"
+                  style={{ background: 'rgba(255,255,255,0.6)' }}>
+                  <Search size={14} className="text-[#7a3060]" />
                   <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Buscar extensiones..."
-                    className="w-full bg-transparent px-3 text-sm focus:outline-none text-white placeholder:text-[#A69CB0]/60 font-body" />
+                    className="w-full bg-transparent px-3 text-sm focus:outline-none text-[#3d1040] placeholder:text-[#7a3060]/60 font-body" />
                 </div>
                 {searchResults.length > 0 && (
-                  <div className="border border-[#D4AF37]/20 border-t-0">
+                  <div className="border border-[#D4AF37]/25 border-t-0">
                     {searchResults.map(product => (
                       <button key={product.id}
                         onClick={() => { handleSelectProduct(product.id); setIsMobileMenuOpen(false); }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#D4AF37]/8 text-left border-b border-[#D4AF37]/10 last:border-0">
-                        <p className="text-sm font-sans flex-1 line-clamp-1 text-white">{product.name}</p>
+                        className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#D4AF37]/10 text-left border-b border-[#D4AF37]/15 last:border-0">
+                        <p className="text-sm font-sans flex-1 line-clamp-1 text-[#3d1040]">{product.name}</p>
                         <span className="text-[#D4AF37] text-xs font-sans">{formatPrice(product.price)}</span>
                       </button>
                     ))}
@@ -261,7 +261,7 @@ export default function Navbar() {
                 {navLinks.map(link => (
                   <Link key={link.name} href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-xl font-display tracking-[0.2em] uppercase text-[#A69CB0] hover:text-[#D4AF37] transition-colors">
+                    className="text-xl font-display tracking-[0.2em] uppercase text-[#7a3060] hover:text-[#D4AF37] transition-colors">
                     {link.name}
                   </Link>
                 ))}
